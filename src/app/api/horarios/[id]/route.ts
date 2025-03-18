@@ -8,11 +8,11 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     try {
         const updatedHorario = await Horario.findByIdAndUpdate(params.id, body, { new: true });
         if (!updatedHorario) {
-            return NextResponse.json({ error: "Horario no encontrado" }, { status: 404 });
+            return NextResponse.json({ ok: false, error: "Horario no encontrado" }, { status: 404 });
         }
         return NextResponse.json({ ok: true, horario: updatedHorario });
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
     }
 }
 

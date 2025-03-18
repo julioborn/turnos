@@ -1,22 +1,25 @@
+// app/api/horarios/route.ts
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectMongoDB } from "@/lib/mongodb";
 import Horario from "@/models/Horario";
-import "@/models/Actividad"; // Importa el modelo de Actividad para registrarlo
 
 export async function GET(request: Request) {
     await connectMongoDB();
-    const { searchParams } = new URL(request.url);
-    const deporteId = searchParams.get("deporte");
+    const { searchParams } = new URL(request.url, process.env.NEXTAUTH_URL || "http://localhost:3000");
+    const deporte = searchParams.get("deporte");
 
-    // Como ya comprobamos, el campo 'deporte' se almacena como ObjectId,
-    // pero si tus documentos están guardados como string, usa el valor directamente.
-    const query = deporteId ? { deporte: new mongoose.Types.ObjectId(deporteId) } : {};
+    if (!deporte) {
+        return NextResponse.json({ ok: false, error: "Falta el parámetro deporte" }, { status: 400 });
+    }
 
     try {
-        const horarios = await Horario.find(query).populate("deporte").exec();
-        return NextResponse.json({ horarios });
+        // Convertir el string a ObjectId
+        const horarios = await Horario.find({
+            deporte: new mongoose.Types.ObjectId(deporte),
+        }).lean();
+        return NextResponse.json({ ok: true, horarios });
     } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
     }
 }

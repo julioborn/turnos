@@ -1,26 +1,21 @@
-// models/Horario.ts
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, model, models } from "mongoose";
 
 export interface IHorario extends Document {
-    deporte: mongoose.Types.ObjectId; // Referencia a la actividad o deporte
+    deporte: mongoose.Types.ObjectId;
     horaInicio: string;
     horaFin: string;
+    disponible: boolean;
 }
 
 const HorarioSchema: Schema = new Schema({
     deporte: {
         type: Schema.Types.ObjectId,
-        ref: "Actividad", // O el nombre del modelo que uses para representar deportes o actividades
+        ref: "Actividad",
         required: true,
     },
-    horaInicio: {
-        type: String,
-        required: true,
-    },
-    horaFin: {
-        type: String,
-        required: true,
-    },
+    horaInicio: { type: String, required: true },
+    horaFin: { type: String, required: true },
+    disponible: { type: Boolean, default: true },
 });
 
-export default mongoose.models.Horario || mongoose.model<IHorario>("Horario", HorarioSchema, 'horarios');
+export default models.Horario || model<IHorario>("Horario", HorarioSchema, 'horarios');

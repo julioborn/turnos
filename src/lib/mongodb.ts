@@ -1,20 +1,22 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || "";
+const MONGODB_URI = process.env.MONGODB_URI || ""; // Asegúrate de que está definida en .env.local
 
 if (!MONGODB_URI) {
-    throw new Error("No se encontró la URI de MongoDB en las variables de entorno.");
+    throw new Error("⚠️ MONGODB_URI no está definida en las variables de entorno.");
 }
 
-let cached = (global as any).mongoose || { conn: null, promise: null };
-
-export const connectMongoDB = async () => {
-    if (cached.conn) return cached.conn;
-
-    if (!cached.promise) {
-        cached.promise = mongoose.connect(MONGODB_URI, {}).then((mongoose) => mongoose);
+export async function connectMongoDB() {
+    if (mongoose.connection.readyState >= 1) {
+        return; // Ya conectado, evitar conexión redundante
     }
 
-    cached.conn = await cached.promise;
-    return cached.conn;
-};
+    try {
+        await mongoose.connect(MONGODB_URI, {
+            dbName: "turnos", // Asegúrate de poner el nombre de tu BD
+        });
+        console.log("✅ Conectado a MongoDB");
+    } catch (error) {
+        console.error("🚨 Error al conectar con MongoDB:", error);
+    }
+}

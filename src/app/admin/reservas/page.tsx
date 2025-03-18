@@ -3,12 +3,12 @@
 import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 
-export default function AdminDashboard() {
+export default function AdminReservas() {
     const [reservasPendientes, setReservasPendientes] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [mensaje, setMensaje] = useState<string>("");
 
-    // Función para obtener reservas pendientes (se espera que el endpoint soporte el filtro por estado)
+    // Función para obtener reservas pendientes, usando el endpoint que soporta filtro por estado
     async function fetchReservasPendientes() {
         setLoading(true);
         try {
@@ -65,20 +65,13 @@ export default function AdminDashboard() {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Panel de Administrador</h1>
-
+            <h1 className="text-2xl font-bold mb-4">Administrar Reservas</h1>
             <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
-                className="bg-red-500 text-white px-4 py-2 rounded"
+                className="bg-red-500 text-white px-4 py-2 rounded mb-4"
             >
                 Cerrar sesión
             </button>
-
-            <section className="mb-8">
-                <h2 className="text-xl font-semibold mb-2">Crear/Editar Horarios</h2>
-                {/* Aquí puedes agregar un formulario para crear o editar actividades/horarios */}
-            </section>
-
             <section>
                 <h2 className="text-xl font-semibold mb-2">Reservas Pendientes</h2>
                 {loading && <p>Cargando reservas pendientes...</p>}
@@ -87,8 +80,10 @@ export default function AdminDashboard() {
                         {reservasPendientes.map((reserva) => (
                             <li key={reserva._id} className="mb-2 border p-2">
                                 <p>
-                                    {reserva.horario.deporte.toUpperCase()} -{" "}
-                                    {reserva.horario.horaInicio} a {reserva.horario.horaFin}
+                                    {reserva.horario.deporte && reserva.horario.deporte.nombre
+                                        ? reserva.horario.deporte.nombre.toUpperCase()
+                                        : "Sin actividad"}{" "}
+                                    - {reserva.horario.horaInicio} a {reserva.horario.horaFin}
                                 </p>
                                 <p>
                                     Cliente: {reserva.nombreCliente} - {reserva.correoCliente}
@@ -114,7 +109,6 @@ export default function AdminDashboard() {
                     <p>No hay reservas pendientes</p>
                 )}
             </section>
-
             {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
         </div>
     );

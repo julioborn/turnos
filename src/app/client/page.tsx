@@ -19,15 +19,16 @@ function getId(id: any): string {
     return id.toString();
 }
 
-export default function CalendarReserva() {
+export default function ClientHorarios() {
     const { data: session } = useSession();
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [horariosPlantilla, setHorariosPlantilla] = useState<any[]>([]);
     const [reservasDelDia, setReservasDelDia] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [mensaje, setMensaje] = useState<string>("");
     const deporteId = actividadIds["padel"];
 
-    // Obtener la plantilla de horarios (una sola vez)
+    // Obtener la plantilla de horarios para el deporte
     async function fetchHorariosPlantilla() {
         try {
             const res = await fetch(`/api/horarios?deporte=${deporteId}`);
@@ -80,6 +81,7 @@ export default function CalendarReserva() {
             }
         } catch (error) {
             console.error("Error en la reserva:", error);
+            setMensaje("Error en la reserva.");
         }
     }
 
@@ -91,15 +93,12 @@ export default function CalendarReserva() {
         return isBefore(fechaHorario, new Date());
     }
 
-    // Comparación de reservas: extrae el ID del horario de la reserva usando _id si existe
+    // Extraer el ID del turno de la reserva
     function obtenerIdReserva(r: any): string {
-        if (r.horario && r.horario._id) {
-            return r.horario._id.toString();
-        }
-        return getId(r.horario);
+        return r.horario?._id?.toString() || "";
     }
 
-    // Función para determinar si un horario ya está reservado en la fecha seleccionada
+    // Determinar si un turno ya está reservado (con estado distinto a "rechazada")
     function estaReservado(horarioId: string): boolean {
         return reservasDelDia.some(
             (reserva) =>
@@ -107,7 +106,7 @@ export default function CalendarReserva() {
         );
     }
 
-    // Para obtener la reserva del horario (para comparar si pertenece al usuario)
+    // Obtener la reserva del turno (para comparar si pertenece al usuario)
     function obtenerReserva(horarioId: string): any {
         return reservasDelDia.find(
             (r) => obtenerIdReserva(r) === horarioId && r.estado !== "rechazada"
@@ -119,13 +118,15 @@ export default function CalendarReserva() {
 
     return (
         <div className="p-4">
-            <button
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-                Cerrar sesión
-            </button>
-            <h1 className="text-2xl font-bold mb-4">Reserva de Turnos para Padel</h1>
+            <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">Reserva de Turnos para Padel</h1>
+                <button
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                    Cerrar sesión
+                </button>
+            </div>
             <div className="mb-4">
                 <label className="block mb-2">Seleccione una fecha:</label>
                 <DatePicker
@@ -145,13 +146,15 @@ export default function CalendarReserva() {
                         {horariosPlantilla.map((h) => {
                             const idPlantilla = getId(h._id);
                             const reserva = obtenerReserva(idPlantilla);
+                            console.log("Comparando turno:", idPlantilla, "con reservas:",
+                                reservasDelDia.map((r) => obtenerIdReserva(r))
+                            );
                             const pasado = esHoy && estaEnElPasado(h.horaInicio, selectedDate);
                             let disabled = false;
                             let botonTexto = "Reservar";
 
                             if (reserva) {
                                 disabled = true;
-                                // Log para depurar comparación de documento
                                 console.log("Usuario:", session?.user.documento, "Reserva:", reserva.correoCliente);
                                 if (
                                     reserva.estado === "pendiente" &&
@@ -168,7 +171,7 @@ export default function CalendarReserva() {
                             }
 
                             return (
-                                <li key={idPlantilla} className="mb-2">
+                                <li key={idPlantilla} className="mb-2 border p-2">
                                     {h.horaInicio} - {h.horaFin}{" "}
                                     <button
                                         onClick={() => reservarHorario(idPlantilla)}
@@ -188,6 +191,7 @@ export default function CalendarReserva() {
                     <p>No hay turnos configurados.</p>
                 )}
             </div>
+            {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
         </div>
     );
 }

@@ -1,44 +1,32 @@
-// models/Reserva.ts
-import mongoose, { Schema, Document } from 'mongoose';
-import { IHorario } from './Horario';
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IReserva extends Document {
-    horario: mongoose.Types.ObjectId | IHorario; // Referencia a la plantilla de horario
+    horario: mongoose.Types.ObjectId;
     nombreCliente: string;
     correoCliente: string;
-    fechaTurno: Date; // La fecha en que se reserva el turno (no la fecha de creación)
-    estado: "pendiente" | "aprobada" | "rechazada" | "completada";
+    fechaTurno: Date;
+    estado: "pendiente" | "aprobada" | "rechazada";
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const ReservaSchema: Schema = new Schema(
     {
         horario: {
             type: Schema.Types.ObjectId,
-            ref: 'Horario',
+            ref: "Horario", // 🔥 Asegúrate de que coincide con el modelo de horarios
             required: true,
         },
-        nombreCliente: {
-            type: String,
-            required: true,
-        },
-        correoCliente: {
-            type: String,
-            required: true,
-        },
-        // La fecha del turno reservado (proporcionada por el usuario al hacer la reserva)
-        fechaTurno: {
-            type: Date,
-            required: true,
-        },
-        // Estado de la reserva, por defecto es "pendiente"
+        nombreCliente: { type: String, required: true },
+        correoCliente: { type: String, required: true },
+        fechaTurno: { type: Date, required: true },
         estado: {
             type: String,
-            enum: ["pendiente", "aprobada", "rechazada", "completada"],
-            default: "pendiente",
+            enum: ["pendiente", "aprobada", "rechazada"],
+            required: true,
         },
     },
-    { timestamps: true } // Agrega createdAt y updatedAt
+    { timestamps: true }
 );
 
-export default mongoose.models.Reserva ||
-    mongoose.model<IReserva>('Reserva', ReservaSchema, 'reservas');
+export default mongoose.models.Reserva || mongoose.model<IReserva>("Reserva", ReservaSchema);

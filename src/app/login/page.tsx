@@ -10,7 +10,14 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (session) {
-            router.push("/dashboard");
+            // Redirige según el rol del usuario
+            if (session.user.rol === "admin") {
+                router.push("/admin");
+            } else if (session.user.rol === "cliente") {
+                router.push("/client");
+            } else {
+                router.push("/dashboard"); // O alguna ruta por defecto
+            }
         }
     }, [session, router]);
 
