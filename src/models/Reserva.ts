@@ -20,6 +20,11 @@ const ReservaSchema: Schema = new Schema(
         nombreCliente: { type: String, required: true },
         correoCliente: { type: String, required: true },
         fechaTurno: { type: Date, required: true },
+        cancha: {
+            type: Number,
+            enum: [1, 2],
+            required: true,
+        },
         estado: {
             type: String,
             enum: ["pendiente", "aprobada", "rechazada"],

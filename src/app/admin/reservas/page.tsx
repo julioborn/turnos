@@ -24,7 +24,7 @@ export default function AdminReservas() {
     // Función para aprobar una reserva
     async function aprobarReserva(reservaId: string) {
         try {
-            const res = await fetch(`/api/reservas/${reservaId}/aprobar`, {
+            const res = await fetch(`/api/reservas/${reservaId}`, {
                 method: "POST",
             });
             const data = await res.json();
@@ -48,7 +48,7 @@ export default function AdminReservas() {
             });
             const data = await res.json();
             if (res.ok) {
-                setMensaje("Reserva rechazada y eliminada.");
+                setMensaje("Reserva rechazada.");
                 fetchReservasPendientes();
             } else {
                 setMensaje("Error: " + data.error);
@@ -57,6 +57,16 @@ export default function AdminReservas() {
             console.error("Error al rechazar la reserva:", error);
             setMensaje("Error al rechazar la reserva.");
         }
+    }
+
+    function formatearFecha(fechaIso: string): string {
+        const fecha = new Date(fechaIso);
+        return new Intl.DateTimeFormat("es-AR", {
+            weekday: "long",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        }).format(fecha);
     }
 
     useEffect(() => {
@@ -82,9 +92,17 @@ export default function AdminReservas() {
                                 <p>
                                     {reserva.horario.deporte && reserva.horario.deporte.nombre
                                         ? reserva.horario.deporte.nombre.toUpperCase()
-                                        : "Sin actividad"}{" "}
-                                    - {reserva.horario.horaInicio} a {reserva.horario.horaFin}
+                                        : "Sin actividad"}
+                                    {" "}
                                 </p>
+                                <p>
+                                    {formatearFecha(reserva.fechaTurno)}
+                                </p>
+                                <p>
+                                    Cancha {reserva.cancha}
+                                </p>
+                                <p>
+                                    {reserva.horario.horaInicio} a {reserva.horario.horaFin}</p>
                                 <p>
                                     Cliente: {reserva.nombreCliente} - {reserva.correoCliente}
                                 </p>
