@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
     const { data: session } = useSession();
@@ -79,6 +80,13 @@ export default function LoginPage() {
                     >
                         {loading ? "Cargando..." : "Ingresar"}
                     </button>
+                    {/* 👉 Botón de registro */}
+                    <div className="text-center mt-4">
+                        <span className="text-gray-600">¿No tenés cuenta?</span>{" "}
+                        <Link href="/register" className="text-blue-500 hover:underline">
+                            Registrate
+                        </Link>
+                    </div>
                 </form>
             </div>
         </div>
