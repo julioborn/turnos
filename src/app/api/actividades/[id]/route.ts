@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import Actividad from "@/models/Actividad";
 
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+    await connectMongoDB();
+    try {
+        const actividad = await Actividad.findById(params.id);
+        if (!actividad) {
+            return NextResponse.json({ error: "Actividad no encontrada" }, { status: 404 });
+        }
+        return NextResponse.json({ ok: true, actividad });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}
+
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
     await connectMongoDB();
     const body = await request.json();
