@@ -14,7 +14,7 @@ export default function LoginPage() {
             if (session.user.rol === "admin") {
                 router.push("/admin");
             } else if (session.user.rol === "cliente") {
-                router.push("/client");
+                router.push("/reservas");
             } else {
                 router.push("/dashboard"); // O alguna ruta por defecto
             }
