@@ -8,7 +8,6 @@ export default function AdminReservas() {
     const [loading, setLoading] = useState<boolean>(false);
     const [mensaje, setMensaje] = useState<string>("");
 
-    // Función para obtener reservas pendientes, usando el endpoint que soporta filtro por estado
     async function fetchReservasPendientes() {
         setLoading(true);
         try {
@@ -21,12 +20,9 @@ export default function AdminReservas() {
         setLoading(false);
     }
 
-    // Función para aprobar una reserva
     async function aprobarReserva(reservaId: string) {
         try {
-            const res = await fetch(`/api/reservas/${reservaId}`, {
-                method: "POST",
-            });
+            const res = await fetch(`/api/reservas/${reservaId}`, { method: "POST" });
             const data = await res.json();
             if (res.ok) {
                 setMensaje("Reserva aprobada.");
@@ -40,12 +36,9 @@ export default function AdminReservas() {
         }
     }
 
-    // Función para rechazar (eliminar) una reserva
     async function rechazarReserva(reservaId: string) {
         try {
-            const res = await fetch(`/api/reservas/${reservaId}`, {
-                method: "DELETE",
-            });
+            const res = await fetch(`/api/reservas/${reservaId}`, { method: "DELETE" });
             const data = await res.json();
             if (res.ok) {
                 setMensaje("Reserva rechazada.");
@@ -74,48 +67,63 @@ export default function AdminReservas() {
     }, []);
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Administrar Reservas</h1>
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
             <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
-                className="bg-red-500 text-white px-4 py-2 rounded mb-4"
+                className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition mb-6"
             >
                 Cerrar sesión
             </button>
-            <section>
-                <h2 className="text-xl font-semibold mb-2">Reservas Pendientes</h2>
-                {loading && <p>Cargando reservas pendientes...</p>}
-                {reservasPendientes.length > 0 ? (
-                    <ul>
+            <div className="w-full max-w-md">
+                <h1 className="text-2xl font-bold text-center mb-4">Administrar Reservas</h1>
+
+                <section>
+                    <h2 className="text-xl font-semibold mb-3 text-center">Reservas Pendientes</h2>
+
+                    {loading && <p className="text-center text-sm mb-2">Cargando reservas...</p>}
+
+                    {reservasPendientes.length > 0 ? (
+                        <ul className="space-y-4">
                         {reservasPendientes.map((reserva) => (
-                            <li key={reserva._id} className="mb-2 border p-2">
-                                <p>
-                                    {reserva.horario.deporte && reserva.horario.deporte.nombre
-                                        ? reserva.horario.deporte.nombre.toUpperCase()
-                                        : "Sin actividad"}
-                                    {" "}
-                                </p>
-                                <p>
-                                    {formatearFecha(reserva.fechaTurno)}
-                                </p>
-                                <p>
-                                    Cancha {reserva.cancha}
-                                </p>
-                                <p>
-                                    {reserva.horario.horaInicio} a {reserva.horario.horaFin}</p>
-                                <p>
-                                    Cliente: {reserva.nombreCliente} - {reserva.correoCliente}
-                                </p>
-                                <div className="flex gap-2 mt-2">
+                            <li
+                                key={reserva._id}
+                                className="border-l-4 border-blue-500 rounded-md bg-white shadow-md p-4 text-sm transition hover:shadow-lg"
+                            >
+                                <div className="mb-2 flex justify-between items-center">
+                                    <span className="text-blue-600 font-bold uppercase tracking-wide">
+                                        {reserva.horario.deporte?.nombre || "Sin actividad"}
+                                    </span>
+                                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                        Cancha {reserva.cancha}
+                                    </span>
+                                </div>
+                    
+                                <div className="mb-2 text-gray-700">
+                                    <p className="text-sm font-medium">
+                                        {formatearFecha(reserva.fechaTurno)}
+                                    </p>
+                                    <p className="text-sm">
+                                        ⏰ {reserva.horario.horaInicio} - {reserva.horario.horaFin}
+                                    </p>
+                                </div>
+                    
+                                <div className="mt-2 border-t pt-2 text-gray-600 text-sm">
+                                    <p>
+                                        👤 <span className="font-semibold">{reserva.nombreCliente}</span>
+                                    </p>
+                                    <p className="text-xs text-gray-500 break-all">{reserva.correoCliente}</p>
+                                </div>
+                    
+                                <div className="flex gap-2 mt-4">
                                     <button
                                         onClick={() => aprobarReserva(reserva._id)}
-                                        className="bg-green-500 text-white px-2 py-1 rounded"
+                                        className="flex-1 bg-green-500 text-white py-2 rounded hover:bg-green-600 transition text-sm font-semibold"
                                     >
                                         Aprobar
                                     </button>
                                     <button
                                         onClick={() => rechazarReserva(reserva._id)}
-                                        className="bg-red-500 text-white px-2 py-1 rounded"
+                                        className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 transition text-sm font-semibold"
                                     >
                                         Rechazar
                                     </button>
@@ -123,11 +131,16 @@ export default function AdminReservas() {
                             </li>
                         ))}
                     </ul>
-                ) : (
-                    <p>No hay reservas pendientes</p>
+                    
+                    ) : (
+                        <p className="text-center text-sm mt-4">No hay reservas pendientes</p>
+                    )}
+                </section>
+
+                {mensaje && (
+                    <p className="mt-6 text-center text-green-600 font-medium">{mensaje}</p>
                 )}
-            </section>
-            {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
+            </div>
         </div>
     );
 }

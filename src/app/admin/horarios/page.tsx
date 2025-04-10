@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-// Ejemplo de lista de deportes (puedes obtenerlos dinámicamente)
 const deportes = [
     { id: "67d1cefbbd7067375f6b33ac", nombre: "Padel" },
     { id: "67d1ce8dbd7067375f6b33a8", nombre: "Fútbol" },
@@ -20,7 +19,6 @@ export default function AdminHorarios() {
         horaFin: "",
     });
 
-    // Función para cargar los horarios para el deporte seleccionado
     async function fetchHorarios() {
         if (!selectedDeporte) return;
         setLoading(true);
@@ -28,7 +26,10 @@ export default function AdminHorarios() {
             const res = await fetch(`/api/horarios?deporte=${selectedDeporte}`);
             const data = await res.json();
             if (data.ok) {
-                setHorarios(data.horarios || []);
+                const ordenados = (data.horarios || []).sort((a: any, b: any) =>
+                    a.horaInicio.localeCompare(b.horaInicio)
+                );
+                setHorarios(ordenados);
             } else {
                 setMensaje("Error: " + data.error);
             }
@@ -47,7 +48,6 @@ export default function AdminHorarios() {
         }
     }, [selectedDeporte]);
 
-    // Función para actualizar la disponibilidad de un horario
     async function toggleDisponibilidad(horarioId: string, current: boolean) {
         try {
             const res = await fetch(`/api/horarios/${horarioId}`, {
@@ -68,7 +68,25 @@ export default function AdminHorarios() {
         }
     }
 
-    // Función para agregar un nuevo horario
+    async function deleteHorario(horarioId: string) {
+        if (!confirm("¿Estás seguro de eliminar este horario?")) return;
+        try {
+            const res = await fetch(`/api/horarios/${horarioId}`, {
+                method: "DELETE",
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setMensaje("Horario eliminado.");
+                fetchHorarios();
+            } else {
+                setMensaje("Error al eliminar horario: " + data.error);
+            }
+        } catch (error) {
+            console.error("Error al eliminar horario:", error);
+            setMensaje("Error al eliminar horario.");
+        }
+    }
+
     async function addHorario(e: React.FormEvent) {
         e.preventDefault();
         if (!selectedDeporte || !newHorario.horaInicio || !newHorario.horaFin) return;
@@ -98,89 +116,105 @@ export default function AdminHorarios() {
     }
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Administrar Horarios</h1>
-            <div className="mb-4">
-                <label className="block mb-2">Seleccione un deporte:</label>
-                <select
-                    value={selectedDeporte}
-                    onChange={(e) => setSelectedDeporte(e.target.value)}
-                    className="border p-2"
-                >
-                    <option value="">-- Seleccione --</option>
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+            <div className="w-full max-w-md">
+                <h1 className="text-2xl font-bold mb-6 text-center">Administrar Horarios</h1>
+
+                {/* Botones para seleccionar deporte */}
+                <div className="flex flex-wrap justify-center gap-3 mb-6">
                     {deportes.map((deporte) => (
-                        <option key={deporte.id} value={deporte.id}>
-                            {deporte.nombre}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            {selectedDeporte && (
-                <>
-                    <h2 className="text-xl font-semibold mb-2">Horarios Disponibles</h2>
-                    {loading ? (
-                        <p>Cargando horarios...</p>
-                    ) : (
-                        <ul>
-                            {horarios.length > 0 ? (
-                                horarios.map((h) => (
-                                    <li key={h._id} className="mb-2 border p-2 flex items-center justify-between">
-                                        <span>
-                                            {h.horaInicio} - {h.horaFin}
-                                        </span>
-                                        <label className="flex items-center gap-2">
-                                            <span>Disponible</span>
-                                            <input
-                                                type="checkbox"
-                                                checked={h.disponible}
-                                                onChange={() => toggleDisponibilidad(h._id, h.disponible)}
-                                            />
-                                        </label>
-                                    </li>
-                                ))
-                            ) : (
-                                <p>No hay horarios configurados para este deporte.</p>
-                            )}
-                        </ul>
-                    )}
-
-                    <h2 className="text-xl font-semibold mt-8 mb-2">Agregar Horario</h2>
-                    <form onSubmit={addHorario} className="flex flex-col gap-2 max-w-md">
-                        <label className="flex flex-col">
-                            Hora de inicio:
-                            <input
-                                type="time"
-                                value={newHorario.horaInicio}
-                                onChange={(e) =>
-                                    setNewHorario({ ...newHorario, horaInicio: e.target.value })
-                                }
-                                required
-                                className="border p-2"
-                            />
-                        </label>
-                        <label className="flex flex-col">
-                            Hora de fin:
-                            <input
-                                type="time"
-                                value={newHorario.horaFin}
-                                onChange={(e) =>
-                                    setNewHorario({ ...newHorario, horaFin: e.target.value })
-                                }
-                                required
-                                className="border p-2"
-                            />
-                        </label>
                         <button
-                            type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                            key={deporte.id}
+                            onClick={() => setSelectedDeporte(deporte.id)}
+                            className={`px-4 py-2 rounded font-medium transition ${selectedDeporte === deporte.id
+                                    ? "bg-blue-600 text-white"
+                                    : "bg-white text-gray-800 border border-gray-300"
+                                }`}
                         >
-                            Agregar Horario
+                            {deporte.nombre}
                         </button>
-                    </form>
-                    {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
-                </>
-            )}
+                    ))}
+                </div>
+
+                {selectedDeporte && (
+                    <>
+                        <h2 className="text-xl font-semibold mb-3">Horarios Disponibles</h2>
+                        {loading ? (
+                            <p className="text-center">Cargando horarios...</p>
+                        ) : (
+                            <ul className="space-y-2">
+                                {horarios.length > 0 ? (
+                                    horarios.map((h) => (
+                                        <li
+                                            key={h._id}
+                                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border rounded p-3 bg-white shadow-sm"
+                                        >
+                                            <span className="text-sm">
+                                                {h.horaInicio} - {h.horaFin}
+                                            </span>
+                                            <div className="flex gap-2 items-center text-sm">
+                                                <label className="flex items-center gap-2">
+                                                    <span>Disponible</span>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={h.disponible}
+                                                        onChange={() =>
+                                                            toggleDisponibilidad(h._id, h.disponible)
+                                                        }
+                                                    />
+                                                </label>
+                                                <button
+                                                    onClick={() => deleteHorario(h._id)}
+                                                    className="text-red-500 hover:underline text-xs"
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <p>No hay horarios configurados para este deporte.</p>
+                                )}
+                            </ul>
+                        )}
+
+                        <h2 className="text-xl font-semibold mt-8 mb-3">Agregar Horario</h2>
+                        <form onSubmit={addHorario} className="flex flex-col gap-4">
+                            <label className="flex flex-col text-sm">
+                                Hora de inicio:
+                                <input
+                                    type="time"
+                                    value={newHorario.horaInicio}
+                                    onChange={(e) =>
+                                        setNewHorario({ ...newHorario, horaInicio: e.target.value })
+                                    }
+                                    required
+                                    className="border p-2 rounded mt-1"
+                                />
+                            </label>
+                            <label className="flex flex-col text-sm">
+                                Hora de fin:
+                                <input
+                                    type="time"
+                                    value={newHorario.horaFin}
+                                    onChange={(e) =>
+                                        setNewHorario({ ...newHorario, horaFin: e.target.value })
+                                    }
+                                    required
+                                    className="border p-2 rounded mt-1"
+                                />
+                            </label>
+                            <button
+                                type="submit"
+                                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+                            >
+                                Agregar Horario
+                            </button>
+                        </form>
+                        {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
+                    </>
+                )}
+            </div>
         </div>
     );
 }

@@ -11,13 +11,12 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (session) {
-            // Redirige según el rol del usuario
             if (session.user.rol === "admin") {
                 router.push("/admin");
             } else if (session.user.rol === "cliente") {
-                router.push("/reservas");
+                router.push("/client");
             } else {
-                router.push("/dashboard"); // O alguna ruta por defecto
+                router.push("/dashboard");
             }
         }
     }, [session, router]);
@@ -34,7 +33,7 @@ export default function LoginPage() {
 
         const result = await signIn("credentials", {
             redirect: false,
-            documento, // Enviamos el documento
+            documento,
             password,
         });
 
@@ -47,43 +46,47 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="p-6 max-w-md w-full bg-white rounded shadow-md">
-                <h2 className="text-2xl font-bold mb-4 text-center">Iniciar Sesión</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 px-4">
+            <div className="w-full max-w-sm bg-white p-6 rounded-xl shadow-lg">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Iniciar Sesión</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-gray-700">Documento</label>
+                        <label className="block text-sm font-medium text-gray-700">Documento</label>
                         <input
                             type="text"
                             value={documento}
                             onChange={(e) => setDocumento(e.target.value)}
-                            className="mt-1 w-full border border-gray-300 rounded p-2"
+                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             placeholder="Número de documento"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-700">Contraseña</label>
+                        <label className="block text-sm font-medium text-gray-700">Contraseña</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 w-full border border-gray-300 rounded p-2"
+                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
                         />
                     </div>
-                    {error && <div className="text-red-500">{error}</div>}
+                    {error && (
+                        <div className="text-sm text-red-500 bg-red-100 px-3 py-2 rounded">
+                            {error}
+                        </div>
+                    )}
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white p-2 rounded"
+                        className={`w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         disabled={loading}
                     >
                         {loading ? "Cargando..." : "Ingresar"}
                     </button>
-                    {/* 👉 Botón de registro */}
-                    <div className="text-center mt-4">
+                    <div className="text-center mt-4 text-sm">
                         <span className="text-gray-600">¿No tenés cuenta?</span>{" "}
-                        <Link href="/register" className="text-blue-500 hover:underline">
+                        <Link href="/register" className="text-blue-500 hover:underline font-medium">
                             Registrate
                         </Link>
                     </div>
