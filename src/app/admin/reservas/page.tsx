@@ -68,12 +68,6 @@ export default function AdminReservas() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-            <button
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition mb-6"
-            >
-                Cerrar sesión
-            </button>
             <div className="w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-4">Administrar Reservas</h1>
 
@@ -87,13 +81,13 @@ export default function AdminReservas() {
                         {reservasPendientes.map((reserva) => (
                             <li
                                 key={reserva._id}
-                                className="border-l-4 border-blue-500 rounded-md bg-white shadow-md p-4 text-sm transition hover:shadow-lg"
+                                className="border-l-4 border-green-500 rounded-md bg-white shadow-md p-4 text-sm transition hover:shadow-lg"
                             >
                                 <div className="mb-2 flex justify-between items-center">
-                                    <span className="text-blue-600 font-bold uppercase tracking-wide">
+                                    <span className="text-green-600 font-bold uppercase tracking-wide">
                                         {reserva.horario.deporte?.nombre || "Sin actividad"}
                                     </span>
-                                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
                                         Cancha {reserva.cancha}
                                     </span>
                                 </div>

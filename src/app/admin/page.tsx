@@ -13,7 +13,7 @@ export default function AdminDashboard() {
             <div className="w-full max-w-sm flex flex-col gap-4">
                 <button
                     onClick={() => router.push("/admin/horarios")}
-                    className="w-full bg-blue-500 text-white px-4 py-3 rounded shadow hover:bg-blue-600 transition"
+                    className="w-full bg-green-500 text-white px-4 py-3 rounded shadow hover:bg-green-600 transition"
                 >
                     Horarios
                 </button>

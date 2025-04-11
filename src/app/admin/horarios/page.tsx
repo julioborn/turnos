@@ -127,7 +127,7 @@ export default function AdminHorarios() {
                             key={deporte.id}
                             onClick={() => setSelectedDeporte(deporte.id)}
                             className={`px-4 py-2 rounded font-medium transition ${selectedDeporte === deporte.id
-                                    ? "bg-blue-600 text-white"
+                                    ? "bg-green-600 text-white"
                                     : "bg-white text-gray-800 border border-gray-300"
                                 }`}
                         >
@@ -206,7 +206,7 @@ export default function AdminHorarios() {
                             </label>
                             <button
                                 type="submit"
-                                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+                                className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
                             >
                                 Agregar Horario
                             </button>

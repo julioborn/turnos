@@ -56,7 +56,7 @@ export default function LoginPage() {
                             type="text"
                             value={documento}
                             onChange={(e) => setDocumento(e.target.value)}
-                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
                             placeholder="Número de documento"
                             required
                         />
@@ -67,7 +67,7 @@ export default function LoginPage() {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
                             required
                         />
                     </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
                     )}
                     <button
                         type="submit"
-                        className={`w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
+                        className={`w-full bg-green-500 text-white py-2 rounded-md font-semibold hover:bg-green-600 transition ${loading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                         disabled={loading}
                     >
@@ -86,7 +86,7 @@ export default function LoginPage() {
                     </button>
                     <div className="text-center mt-4 text-sm">
                         <span className="text-gray-600">¿No tenés cuenta?</span>{" "}
-                        <Link href="/register" className="text-blue-500 hover:underline font-medium">
+                        <Link href="/register" className="text-green-500 hover:underline font-medium">
                             Registrate
                         </Link>
                     </div>

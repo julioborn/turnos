@@ -107,12 +107,6 @@ export default function ClientHorarios() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-            <button
-                onClick={() => signOut({ callbackUrl: "/login" })}
-                className="bg-red-500 mb-4 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-            >
-                Cerrar sesión
-            </button>
             <div className="w-full max-w-md">
                 <div className="flex flex-col items-center gap-4 mb-2">
                     <h1 className="text-2xl font-bold text-center">Reserva de Turnos para Padel</h1>
@@ -126,7 +120,7 @@ export default function ClientHorarios() {
                         dateFormat="yyyy-MM-dd"
                         minDate={new Date()}
                         locale={es}
-                        className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer text-center w-full text-base"
+                        className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer text-center w-full text-base"
                         placeholderText="Seleccionar fecha"
                     />
                 </div>
@@ -179,7 +173,7 @@ export default function ClientHorarios() {
                                                                 disabled={disabled}
                                                                 className={`w-full px-2 py-2 rounded font-semibold text-sm sm:text-base ${disabled
                                                                     ? "bg-gray-400 text-white cursor-not-allowed"
-                                                                    : "bg-blue-500 text-white hover:bg-blue-600 transition"
+                                                                    : "bg-green-500 text-white hover:bg-green-600 transition"
                                                                     }`}
                                                             >
                                                                 {texto}

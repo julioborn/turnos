@@ -21,7 +21,7 @@ export default function ClientHome() {
                         <button
                             key={actividad.path}
                             onClick={() => router.push(`/client/reservas/${actividad.path}`)}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded text-lg shadow-sm transition"
+                            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg shadow-sm transition"
                         >
                             {actividad.nombre}
                         </button>
