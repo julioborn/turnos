@@ -24,7 +24,7 @@ export default function Header() {
     };
 
     return (
-        <header className="w-full bg-green-600 text-white px-6 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
+        <header className="w-full bg-green-600 text-white px-6 py-5 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
             <button onClick={toggleMenu} className="focus:outline-none">
                 {isOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
             </button>

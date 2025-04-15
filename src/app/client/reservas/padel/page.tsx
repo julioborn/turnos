@@ -107,9 +107,9 @@ export default function ClientHorarios() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md mt-20">
                 <div className="flex flex-col items-center gap-4 mb-2">
-                    <h1 className="text-2xl font-bold text-center">Reserva de Turnos para Padel</h1>
+                    <h1 className="text-2xl font-bold text-center">Reserva tu turno para Padel</h1>
                 </div>
 
                 <div className="mb-6 mt-4 flex flex-col items-center">
