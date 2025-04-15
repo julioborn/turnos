@@ -112,12 +112,12 @@ export default function ClientHorarios() {
                     <h1 className="text-2xl font-bold text-center">Reserva de Turnos para Padel</h1>
                 </div>
 
-                <div className="mb-6 flex flex-col items-center">
+                <div className="mb-6 mt-4 flex flex-col items-center">
                     <p className="text-lg font-medium mb-2 text-gray-700 text-center">Seleccionar fecha</p>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => date && setSelectedDate(date)}
-                        dateFormat="yyyy-MM-dd"
+                        dateFormat="dd-MM-yyyy"
                         minDate={new Date()}
                         locale={es}
                         className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer text-center w-full text-base"

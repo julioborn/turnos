@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import { div } from "framer-motion/client";
 
 export default function Header() {
     const { data: session } = useSession();
@@ -23,11 +24,15 @@ export default function Header() {
     };
 
     return (
-        <header className="w-full bg-green-600 text-white px-4 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
+        <header className="w-full bg-green-600 text-white px-6 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
             <button onClick={toggleMenu} className="focus:outline-none">
                 {isOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
             </button>
-            <h1 className="text-lg font-bold">Turnos</h1>
+            <img
+                src="/crc3.png"
+                alt="Logo Turnos"
+                className="h-8 object-contain"
+            />
 
             <AnimatePresence>
                 {isOpen && (
@@ -60,9 +65,19 @@ export default function Header() {
                                 </>
                             )}
                             {session?.user.rol === "cliente" && (
-                                <li className="px-4 py-2 text-sm text-gray-700 font-medium">
-                                    {session.user.nombre}
-                                </li>
+                                <div>
+                                    {/* <li className="px-4 py-2 text-sm text-gray-700 font-medium">
+                                        {session.user.nombre}
+                                    </li> */}
+                                    <li>
+                                        <button
+                                            onClick={() => handleNavigate("/client")}
+                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
+                                        >
+                                            Inicio
+                                        </button>
+                                    </li>
+                                </div>
                             )}
                             <li>
                                 <button
