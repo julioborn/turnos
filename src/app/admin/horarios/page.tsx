@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const deportes = [
-    { id: "67d1cefbbd7067375f6b33ac", nombre: "Padel" },
+    { id: "67d1cefbbd7067375f6b33ac", nombre: "Pádel" },
     { id: "67d1ce8dbd7067375f6b33a8", nombre: "Fútbol" },
     { id: "67d1ceb0bd7067375f6b33aa", nombre: "Vóley" },
     { id: "67d1cea2bd7067375f6b33a9", nombre: "Básquet" },
@@ -116,7 +116,7 @@ export default function AdminHorarios() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-10">
             <div className="w-full max-w-md">
                 <h1 className="text-2xl font-bold mb-6 text-center">Administrar Horarios</h1>
 

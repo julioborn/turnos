@@ -67,12 +67,11 @@ export default function AdminReservas() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
             <div className="w-full max-w-md">
-                <h1 className="text-2xl font-bold text-center mb-4">Administrar Reservas</h1>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3 text-center">Reservas Pendientes</h2>
+                <h2 className="text-2xl font-extrabold mb-3 tracking-tight text-center">Reservas Pendientes</h2>
 
                     {loading && <p className="text-center text-sm mb-2">Cargando reservas...</p>}
 

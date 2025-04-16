@@ -26,12 +26,12 @@ export default function Header() {
     return (
         <header className="w-full bg-green-600 text-white px-6 py-5 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
             <button onClick={toggleMenu} className="focus:outline-none">
-                {isOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+                {isOpen ? <XMarkIcon className="w-8 h-8" /> : <Bars3Icon className="w-8 h-8" />}
             </button>
             <img
-                src="/crc3.png"
+                src="/crc4.png"
                 alt="Logo Turnos"
-                className="h-8 object-contain"
+                className="h-10 object-contain"
             />
 
             <AnimatePresence>
@@ -46,6 +46,14 @@ export default function Header() {
                         <ul className="flex flex-col">
                             {session?.user.rol === "admin" && (
                                 <>
+                                    <li>
+                                        <button
+                                            onClick={() => handleNavigate("/admin")}
+                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
+                                        >
+                                            Inicio
+                                        </button>
+                                    </li>
                                     <li>
                                         <button
                                             onClick={() => handleNavigate("/admin/horarios")}

@@ -108,22 +108,35 @@ export default function ClientHorarios() {
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
             <div className="w-full max-w-md mt-20">
-                <div className="flex flex-col items-center gap-4 mb-2">
-                    <h1 className="text-2xl font-bold text-center">Reserva tu turno para Padel</h1>
+                <div className="flex flex-col items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2">
+                        <h1 className="text-3xl font-extrabold text-green-600 text-center tracking-tight">
+                            Reserva para Pádel
+                        </h1>
+                        <img
+                            src="/padel.png" 
+                            alt="Pelota de pádel"
+                            className="w-8 h-8"
+                        />
+                    </div>
                 </div>
 
-                <div className="mb-6 mt-4 flex flex-col items-center">
-                    <p className="text-lg font-medium mb-2 text-gray-700 text-center">Seleccionar fecha</p>
+                <div className="mb-6 mt-2 flex flex-col items-center w-full max-w-xs sm:max-w-sm mx-auto">
+                    {/* <label className="text-md font-semibold text-gray-800 mb-2">
+                        Seleccionar fecha
+                    </label> */}
+                    <p className="text-lg text-gray-500 mb-0.5">Seleccionar fecha</p>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => date && setSelectedDate(date)}
                         dateFormat="dd-MM-yyyy"
                         minDate={new Date()}
                         locale={es}
-                        className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer text-center w-full text-base"
+                        className="bg-green-600 text-white px-4 py-2 rounded-full text-center cursor-pointer w-full text-base focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                         placeholderText="Seleccionar fecha"
                     />
                 </div>
+
 
                 {horariosPlantilla.length > 0 ? (
                     <div className="overflow-x-auto">
