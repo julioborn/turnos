@@ -42,6 +42,11 @@ export default function AdminHorarios() {
     }
 
     useEffect(() => {
+        // Siempre scrollear al tope al entrar a la ruta
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
+    useEffect(() => {
         if (selectedDeporte) {
             fetchHorarios();
         } else {
@@ -141,7 +146,7 @@ export default function AdminHorarios() {
                             className={`relative px-4 py-2 rounded-full text-sm font-medium transition ${selectedDeporte === deporte.id
                                 ? "bg-green-600 text-white"
                                 : "bg-white border border-green-600 text-green-600"
-                            }`}
+                                }`}
                         >
                             {deporte.nombre}
                         </button>
