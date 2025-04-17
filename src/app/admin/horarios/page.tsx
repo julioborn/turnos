@@ -42,8 +42,17 @@ export default function AdminHorarios() {
     }
 
     useEffect(() => {
-        // Siempre scrollear al tope al entrar a la ruta
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Espera a que todo se renderice y luego scrollea al tope
+        const scrollToTop = () => {
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: "instant" }); // Podés usar "smooth" si querés
+            });
+        };
+
+        // Pequeña demora para asegurar que todo se montó
+        const timeout = setTimeout(scrollToTop, 50);
+
+        return () => clearTimeout(timeout);
     }, []);
 
     useEffect(() => {

@@ -85,12 +85,13 @@ export default function HistorialReservasAdmin() {
                                 </div>
 
                                 <div className="mb-2 text-gray-700">
-                                    <p><strong>{formatearFechaConDia(reserva.fechaTurno)}</strong></p>
-                                    <p>⏰ {reserva.horario.horaInicio} - {reserva.horario.horaFin}</p>
+                                    <p>{formatearFechaConDia(reserva.fechaTurno)}</p>
+                                    <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
                                 </div>
 
                                 <div className="border-t pt-2 text-gray-600">
-                                    <p>👤 {reserva.nombreCliente}</p>
+                                    <p className="text-xs">Cliente</p>
+                                    <strong>{reserva.nombreCliente}</strong>
                                     <p className="text-xs text-gray-500 break-all">{reserva.correoCliente}</p>
                                 </div>
 
