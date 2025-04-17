@@ -128,7 +128,7 @@ export default function AdminHorarios() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-10">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
             <div className="w-full max-w-md">
                 <h1 className="text-2xl font-bold mb-6 text-center">Administrar Horarios</h1>
 
@@ -138,10 +138,10 @@ export default function AdminHorarios() {
                         <button
                             key={deporte.id}
                             onClick={() => setSelectedDeporte(deporte.id)}
-                            className={`px-4 py-2 rounded font-medium transition ${selectedDeporte === deporte.id
+                            className={`relative px-4 py-2 rounded-full text-sm font-medium transition ${selectedDeporte === deporte.id
                                 ? "bg-green-600 text-white"
-                                : "bg-white text-gray-800 border border-gray-300"
-                                }`}
+                                : "bg-white border border-green-600 text-green-600"
+                            }`}
                         >
                             {deporte.nombre}
                         </button>

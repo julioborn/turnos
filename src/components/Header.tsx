@@ -70,6 +70,14 @@ export default function Header() {
                                             Reservas
                                         </button>
                                     </li>
+                                    <li>
+                                        <button
+                                            onClick={() => handleNavigate("/admin/historial")}
+                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
+                                        >
+                                            Historial
+                                        </button>
+                                    </li>
                                 </>
                             )}
                             {session?.user.rol === "cliente" && (
@@ -83,6 +91,14 @@ export default function Header() {
                                             className="w-full text-left px-4 py-2 hover:bg-green-100"
                                         >
                                             Inicio
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() => handleNavigate("/client/mis-reservas")}
+                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
+                                        >
+                                            Mis Reservas
                                         </button>
                                     </li>
                                 </div>

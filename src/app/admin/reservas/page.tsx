@@ -69,12 +69,14 @@ export default function AdminReservas() {
 
     function formatearFecha(fechaIso: string): string {
         const fecha = new Date(fechaIso);
-        return new Intl.DateTimeFormat("es-AR", {
+        const formateada = new Intl.DateTimeFormat("es-AR", {
             weekday: "long",
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
         }).format(fecha);
+
+        return formateada.charAt(0).toUpperCase() + formateada.slice(1);
     }
 
     useEffect(() => {
@@ -98,11 +100,10 @@ export default function AdminReservas() {
                         <button
                             key={deporte}
                             onClick={() => setDeporteSeleccionado(deporte)}
-                            className={`relative px-4 py-2 rounded-full text-sm font-medium transition ${
-                                deporteSeleccionado === deporte
-                                    ? "bg-green-600 text-white"
-                                    : "bg-white border border-green-600 text-green-600"
-                            }`}
+                            className={`relative px-4 py-2 rounded-full text-sm font-medium transition ${deporteSeleccionado === deporte
+                                ? "bg-green-600 text-white"
+                                : "bg-white border border-green-600 text-green-600"
+                                }`}
                         >
                             {deporte.charAt(0).toUpperCase() + deporte.slice(1)}
                             {cantidadPorDeporte(deporte) > 0 && (
@@ -134,11 +135,12 @@ export default function AdminReservas() {
 
                                 <div className="mb-2 text-gray-700">
                                     <p className="font-medium">{formatearFecha(reserva.fechaTurno)}</p>
-                                    <p>⏰ {reserva.horario.horaInicio} - {reserva.horario.horaFin}</p>
+                                    <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
                                 </div>
 
                                 <div className="border-t pt-2 text-gray-600">
-                                    <p>👤 <span className="font-semibold">{reserva.nombreCliente}</span></p>
+                                    <p className="text-xs">Cliente</p>
+                                    <span className="font-semibold">{reserva.nombreCliente}</span>
                                     <p className="text-xs text-gray-500 break-all">{reserva.correoCliente}</p>
                                 </div>
 
@@ -160,7 +162,9 @@ export default function AdminReservas() {
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-center text-sm mt-4">No hay reservas de {deporteSeleccionado}</p>
+                    <p className="text-center text-sm mt-4">No hay reservas
+                        {/* de {deporteSeleccionado} */}
+                    </p>
                 )}
             </div>
         </div>

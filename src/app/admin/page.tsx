@@ -23,6 +23,12 @@ export default function AdminDashboard() {
                 >
                     Reservas
                 </button>
+                <button
+                    onClick={() => router.push("/admin/historial")}
+                    className="w-full bg-green-500 text-white px-4 py-3 rounded-full font-semibold shadow hover:bg-green-600 transition"
+                >
+                    Historial de Reservas
+                </button>
             </div>
         </div>
     );

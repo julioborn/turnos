@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
         // ADMIN
         if (
             rol === "admin" &&
-            !["/admin", "/admin/reservas", "/admin/horarios"].includes(pathname)
+            !["/admin", "/admin/reservas", "/admin/horarios", "/admin/historial"].includes(pathname)
         ) {
             console.log("⛔ ADMIN intentando acceder a ruta no autorizada:", pathname);
             return NextResponse.redirect(new URL("/admin", req.url));
@@ -38,6 +38,7 @@ export async function middleware(req: NextRequest) {
             rol === "cliente" &&
             ![
                 "/client",
+                "/client/mis-reservas",
                 "/client/reservas/padel",
                 "/client/reservas/futbol",
                 "/client/reservas/voley",

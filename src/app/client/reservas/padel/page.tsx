@@ -124,10 +124,10 @@ export default function ClientHorarios() {
             <div className="w-full max-w-md mt-20">
                 <div className="flex flex-col items-center gap-2 mb-4">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-3xl font-extrabold text-green-600 text-center tracking-tight">
+                        <h1 className="text-3xl font-extrabold text-center tracking-tight">
                             Reserva para Pádel
                         </h1>
-                        <img src="/padel.png" alt="Pelota de pádel" className="w-8 h-8" />
+                        {/* <img src="/padel.png" alt="Pelota de pádel" className="w-8 h-8" /> */}
                     </div>
                 </div>
 
