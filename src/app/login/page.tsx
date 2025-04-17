@@ -53,9 +53,14 @@ export default function LoginPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Documento</label>
                         <input
-                            type="text"
+                            type="tel"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             value={documento}
-                            onChange={(e) => setDocumento(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, ""); // elimina todo lo que no sea número
+                                setDocumento(value);
+                            }}
                             className="mt-1 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
                             placeholder="Número de documento"
                             required

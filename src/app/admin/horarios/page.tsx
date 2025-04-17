@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const deportes = [
     { id: "67d1cefbbd7067375f6b33ac", nombre: "Pádel" },
@@ -69,21 +70,32 @@ export default function AdminHorarios() {
     }
 
     async function deleteHorario(horarioId: string) {
-        if (!confirm("¿Estás seguro de eliminar este horario?")) return;
+        const confirm = await Swal.fire({
+            title: "¿Eliminar horario?",
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#dc2626",
+        });
+
+        if (!confirm.isConfirmed) return;
+
         try {
             const res = await fetch(`/api/horarios/${horarioId}`, {
                 method: "DELETE",
             });
             const data = await res.json();
             if (res.ok) {
-                setMensaje("Horario eliminado.");
+                await Swal.fire("Eliminado", "El horario fue eliminado correctamente.", "success");
                 fetchHorarios();
             } else {
-                setMensaje("Error al eliminar horario: " + data.error);
+                Swal.fire("Error", data.error || "No se pudo eliminar", "error");
             }
         } catch (error) {
             console.error("Error al eliminar horario:", error);
-            setMensaje("Error al eliminar horario.");
+            Swal.fire("Error", "Ocurrió un problema al eliminar el horario.", "error");
         }
     }
 
@@ -103,15 +115,15 @@ export default function AdminHorarios() {
             });
             const data = await res.json();
             if (res.ok) {
-                setMensaje("Horario creado.");
                 setNewHorario({ horaInicio: "", horaFin: "" });
                 fetchHorarios();
+                await Swal.fire("Creado", "Horario agregado correctamente.", "success");
             } else {
-                setMensaje("Error al crear horario: " + data.error);
+                Swal.fire("Error", data.error || "No se pudo crear el horario.", "error");
             }
         } catch (error) {
             console.error("Error al crear horario:", error);
-            setMensaje("Error al crear horario.");
+            Swal.fire("Error", "Ocurrió un problema al crear el horario.", "error");
         }
     }
 
@@ -127,8 +139,8 @@ export default function AdminHorarios() {
                             key={deporte.id}
                             onClick={() => setSelectedDeporte(deporte.id)}
                             className={`px-4 py-2 rounded font-medium transition ${selectedDeporte === deporte.id
-                                    ? "bg-green-600 text-white"
-                                    : "bg-white text-gray-800 border border-gray-300"
+                                ? "bg-green-600 text-white"
+                                : "bg-white text-gray-800 border border-gray-300"
                                 }`}
                         >
                             {deporte.nombre}
@@ -211,7 +223,6 @@ export default function AdminHorarios() {
                                 Agregar Horario
                             </button>
                         </form>
-                        {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
                     </>
                 )}
             </div>

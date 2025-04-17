@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { isBefore, format } from "date-fns";
 import { signOut, useSession } from "next-auth/react";
 import { es } from "date-fns/locale";
+import Swal from "sweetalert2";
 
 const actividadIds: { [key: string]: string } = {
     padel: "67d1cefbbd7067375f6b33ac",
@@ -23,7 +24,6 @@ export default function ClientHorarios() {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [horariosPlantilla, setHorariosPlantilla] = useState<any[]>([]);
     const [reservasDelDia, setReservasDelDia] = useState<any[]>([]);
-    const [mensaje, setMensaje] = useState<string>("");
     const deporteId = actividadIds["padel"];
 
     async function fetchHorariosPlantilla() {
@@ -41,10 +41,7 @@ export default function ClientHorarios() {
 
     async function fetchReservas(fecha: string) {
         try {
-            const res = await fetch(
-                `/api/reservas?deporte=${deporteId}&fecha=${fecha}`,
-                { credentials: "include" }
-            );
+            const res = await fetch(`/api/reservas?deporte=${deporteId}&fecha=${fecha}`);
             const data = await res.json();
             setReservasDelDia(data.reservas || []);
         } catch (error) {
@@ -61,8 +58,25 @@ export default function ClientHorarios() {
         fetchHorariosPlantilla();
     }, []);
 
-    async function reservarHorario(horarioId: string, cancha: number) {
+    async function reservarHorario(horarioId: string, cancha: number, horaInicio: string, horaFin: string) {
         const fechaStr = format(selectedDate, "yyyy-MM-dd");
+
+        const confirm = await Swal.fire({
+            title: "¿Confirmar reserva?",
+            html: `
+                <p><strong>Fecha:</strong> ${format(selectedDate, "dd-MM-yyyy")}</p>
+                <p><strong>Horario:</strong> ${horaInicio} - ${horaFin}</p>
+                <p><strong>Cancha:</strong> ${cancha}</p>
+            `,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Reservar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#16a34a",
+        });
+
+        if (!confirm.isConfirmed) return;
+
         try {
             const res = await fetch("/api/reservas", {
                 method: "POST",
@@ -72,14 +86,14 @@ export default function ClientHorarios() {
             });
             const data = await res.json();
             if (res.ok) {
-                alert(`Reserva realizada en Cancha ${cancha}. Queda pendiente para aprobación.`);
+                await Swal.fire("¡Listo!", "Tu reserva fue registrada y está pendiente de aprobación.", "success");
                 fetchReservas(fechaStr);
             } else {
-                alert("Error: " + data.error);
+                await Swal.fire("Error", data.error || "No se pudo hacer la reserva.", "error");
             }
         } catch (error) {
             console.error("Error en la reserva:", error);
-            setMensaje("Error en la reserva.");
+            await Swal.fire("Error", "Ocurrió un problema al hacer la reserva.", "error");
         }
     }
 
@@ -113,18 +127,11 @@ export default function ClientHorarios() {
                         <h1 className="text-3xl font-extrabold text-green-600 text-center tracking-tight">
                             Reserva para Pádel
                         </h1>
-                        <img
-                            src="/padel.png" 
-                            alt="Pelota de pádel"
-                            className="w-8 h-8"
-                        />
+                        <img src="/padel.png" alt="Pelota de pádel" className="w-8 h-8" />
                     </div>
                 </div>
 
                 <div className="mb-6 mt-2 flex flex-col items-center w-full max-w-xs sm:max-w-sm mx-auto">
-                    {/* <label className="text-md font-semibold text-gray-800 mb-2">
-                        Seleccionar fecha
-                    </label> */}
                     <p className="text-lg text-gray-500 mb-0.5">Seleccionar fecha</p>
                     <DatePicker
                         selected={selectedDate}
@@ -137,7 +144,6 @@ export default function ClientHorarios() {
                     />
                 </div>
 
-
                 {horariosPlantilla.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="w-full border text-base sm:text-lg">
@@ -149,61 +155,60 @@ export default function ClientHorarios() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {horariosPlantilla
-                                    .sort((a, b) => a.horaInicio.localeCompare(b.horaInicio))
-                                    .map((h) => {
-                                        const idPlantilla = getId(h._id);
-                                        const noDisponible = !h.disponible;
-                                        const pasado = esHoy && estaEnElPasado(h.horaInicio, selectedDate);
+                                {horariosPlantilla.map((h) => {
+                                    const idPlantilla = getId(h._id);
+                                    const noDisponible = !h.disponible;
+                                    const pasado = esHoy && estaEnElPasado(h.horaInicio, selectedDate);
 
-                                        return (
-                                            <tr key={idPlantilla} className="text-center">
-                                                <td className="border px-3 py-3 font-medium">
-                                                    {h.horaInicio} - {h.horaFin}
-                                                </td>
-                                                {[1, 2].map((cancha) => {
-                                                    const reserva = obtenerReserva(idPlantilla, cancha);
-                                                    const esDelUsuario =
-                                                        reserva && session?.user.documento === reserva.correoCliente;
+                                    return (
+                                        <tr key={idPlantilla} className="text-center">
+                                            <td className="border px-3 py-3 font-medium">
+                                                {h.horaInicio} - {h.horaFin}
+                                            </td>
+                                            {[1, 2].map((cancha) => {
+                                                const reserva = obtenerReserva(idPlantilla, cancha);
+                                                const esDelUsuario =
+                                                    reserva && session?.user.documento === reserva.correoCliente;
 
-                                                    const disabled = !!reserva || pasado || noDisponible;
-                                                    let texto = "Reservar";
+                                                const disabled = !!reserva || pasado || noDisponible;
+                                                let texto = "Reservar";
 
-                                                    if (reserva) {
-                                                        texto = esDelUsuario && reserva.estado === "pendiente"
-                                                            ? "Pendiente"
-                                                            : "Reservado";
-                                                    } else if (pasado) {
-                                                        texto = "Pasado";
-                                                    } else if (noDisponible) {
-                                                        texto = "No disponible";
-                                                    }
+                                                if (reserva) {
+                                                    texto = esDelUsuario && reserva.estado === "pendiente"
+                                                        ? "Pendiente"
+                                                        : "Reservado";
+                                                } else if (pasado) {
+                                                    texto = "Pasado";
+                                                } else if (noDisponible) {
+                                                    texto = "No disponible";
+                                                }
 
-                                                    return (
-                                                        <td key={cancha} className="border px-2 py-2">
-                                                            <button
-                                                                onClick={() => reservarHorario(idPlantilla, cancha)}
-                                                                disabled={disabled}
-                                                                className={`w-full px-2 py-2 rounded font-semibold text-sm sm:text-base ${disabled
-                                                                    ? "bg-gray-400 text-white cursor-not-allowed"
-                                                                    : "bg-green-500 text-white hover:bg-green-600 transition"
-                                                                    }`}
-                                                            >
-                                                                {texto}
-                                                            </button>
-                                                        </td>
-                                                    );
-                                                })}
-                                            </tr>
-                                        );
-                                    })}
+                                                return (
+                                                    <td key={cancha} className="border px-2 py-2">
+                                                        <button
+                                                            onClick={() =>
+                                                                reservarHorario(idPlantilla, cancha, h.horaInicio, h.horaFin)
+                                                            }
+                                                            disabled={disabled}
+                                                            className={`w-full px-2 py-2 rounded font-semibold text-sm sm:text-base ${disabled
+                                                                ? "bg-gray-400 text-white cursor-not-allowed"
+                                                                : "bg-green-500 text-white hover:bg-green-600 transition"
+                                                                }`}
+                                                        >
+                                                            {texto}
+                                                        </button>
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
                 ) : (
                     <p className="text-center text-sm">No hay turnos configurados.</p>
                 )}
-                {mensaje && <p className="mt-4 text-green-600 text-center">{mensaje}</p>}
             </div>
         </div>
     );
