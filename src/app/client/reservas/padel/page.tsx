@@ -89,7 +89,13 @@ export default function ClientHorarios() {
                 await Swal.fire("¡Listo!", "Tu reserva fue registrada y está pendiente de aprobación.", "success");
                 fetchReservas(fechaStr);
             } else {
-                await Swal.fire("Error", data.error || "No se pudo hacer la reserva.", "error");
+                const mensaje =
+                    data.error?.includes("día")
+                        ? "Ya tenés una reserva para este deporte en ese día."
+                        : data.error?.includes("semana")
+                            ? "Alcanzaste el máximo de 3 reservas semanales para este deporte."
+                            : data.error || "No se pudo hacer la reserva.";
+                await Swal.fire("Reserva no permitida", mensaje, "warning");
             }
         } catch (error) {
             console.error("Error en la reserva:", error);
@@ -122,17 +128,14 @@ export default function ClientHorarios() {
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
             <div className="w-full max-w-md mt-20">
-                <div className="flex flex-col items-center gap-2 mb-4">
-                    <div className="flex items-center gap-2">
-                        <h1 className="text-3xl font-extrabold text-center tracking-tight">
-                            Reserva para Pádel
-                        </h1>
-                        {/* <img src="/padel.png" alt="Pelota de pádel" className="w-8 h-8" /> */}
-                    </div>
+                <div className="flex flex-col items-center mb-6">
+                    <h1 className="text-4xl uppercase font-black text-green-700 tracking-tight">Pádel</h1>
+                    <p className="text-sm uppercase tracking-widest text-gray-500 mt-1">Turnos disponibles</p>
                 </div>
 
+
                 <div className="mb-6 mt-2 flex flex-col items-center w-full max-w-xs sm:max-w-sm mx-auto">
-                    <p className="text-lg text-gray-500 mb-0.5">Seleccionar fecha</p>
+                    <p className="text-sm uppercase text-gray-500 mb-0.5">Elegir Fecha</p>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => date && setSelectedDate(date)}
@@ -178,7 +181,7 @@ export default function ClientHorarios() {
                                                         ? "Pendiente"
                                                         : "Reservado";
                                                 } else if (pasado) {
-                                                    texto = "Pasado";
+                                                    texto = "-";
                                                 } else if (noDisponible) {
                                                     texto = "No disponible";
                                                 }
