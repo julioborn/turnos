@@ -27,12 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClientProviders>
           <Header />
-          <main>{children}</main>
+          <main className="pt-20">{children}</main> {/* 💥 agregado pt-20 */}
         </ClientProviders>
       </body>
     </html>
