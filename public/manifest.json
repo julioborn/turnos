@@ -1,6 +1,6 @@
 {
     "name": "Turnos CRC",
-    "short_name": "Turnos",
+    "short_name": "CRC",
     "description": "Aplicación de reservas de turnos CRC",
     "start_url": "/",
     "display": "standalone",
