@@ -5,7 +5,6 @@ import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import { div } from "framer-motion/client";
 
 export default function Header() {
     const { data: session } = useSession();
@@ -13,7 +12,7 @@ export default function Header() {
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
 
-    // No renderizar en /login
+    // No mostrar el header en /login
     if (pathname === "/login") return null;
 
     const toggleMenu = () => setIsOpen(!isOpen);
@@ -24,7 +23,7 @@ export default function Header() {
     };
 
     return (
-        <header className="w-full bg-green-600 text-white px-6 py-5 flex justify-between items-center shadow-md fixed top-0 left-0 z-50">
+        <header className="fixed top-0 left-0 w-full bg-green-600 text-white shadow-md px-6 py-4 flex justify-between items-center z-50 h-20">
             <button onClick={toggleMenu} className="focus:outline-none">
                 {isOpen ? <XMarkIcon className="w-8 h-8" /> : <Bars3Icon className="w-8 h-8" />}
             </button>
@@ -81,10 +80,7 @@ export default function Header() {
                                 </>
                             )}
                             {session?.user.rol === "cliente" && (
-                                <div>
-                                    {/* <li className="px-4 py-2 text-sm text-gray-700 font-medium">
-                                        {session.user.nombre}
-                                    </li> */}
+                                <>
                                     <li>
                                         <button
                                             onClick={() => handleNavigate("/client")}
@@ -101,7 +97,7 @@ export default function Header() {
                                             Mis Reservas
                                         </button>
                                     </li>
-                                </div>
+                                </>
                             )}
                             <li>
                                 <button

@@ -144,7 +144,7 @@ export default function AdminHorarios() {
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
             <div className="w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-6 text-center">Administrar Horarios</h1>
+                <h1 className="text-2xl font-extrabold mb-4 text-center">Administrar Horarios</h1>
 
                 {/* Botones para seleccionar deporte */}
                 <div className="flex flex-wrap justify-center gap-3 mb-6">

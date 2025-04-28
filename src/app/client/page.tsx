@@ -13,9 +13,9 @@ export default function ClientHome() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+        <div className="mt-20 bg-gray-100 flex items-center justify-center px-4">
             <div className="w-full max-w-md text-center">
-                <h1 className="text-3xl font-extrabold mb-3 tracking-tight">Reservar Turno</h1>
+                <h1 className="text-2xl font-extrabold mb-3 tracking-tight">Reservar Turno</h1>
                 <p className="text-lg text-gray-500 mb-2">Elegí un deporte</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {actividades.map((actividad) => (

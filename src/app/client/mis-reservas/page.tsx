@@ -73,7 +73,7 @@ export default function MisReservas() {
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
             <div className="w-full max-w-xl">
-                <h1 className="text-3xl font-extrabold text-center tracking-tight mb-4">Mis Reservas</h1>
+                <h1 className="text-2xl font-extrabold text-center tracking-tight mb-4">Mis Reservas</h1>
 
                 {loading ? (
                     <p className="text-center">Cargando...</p>
@@ -101,11 +101,11 @@ export default function MisReservas() {
                                 </div>
                                 <p className="text-gray-700 font-medium">
                                     <p className="text-sm font-medium text-gray-700">
-                                        🗓️ {formatearFechaConDia(reserva.fechaTurno)}
+                                        {formatearFechaConDia(reserva.fechaTurno)}
                                     </p>
                                 </p>
-                                <p>⏰ {reserva.horario.horaInicio} - {reserva.horario.horaFin}</p>
-                                <p>📍 Cancha {reserva.cancha}</p>
+                                <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
+                                <p>Cancha {reserva.cancha}</p>
                             </li>
                         ))}
                     </ul>

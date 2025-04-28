@@ -7,8 +7,8 @@ export default function AdminDashboard() {
     const router = useRouter();
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-100">
-            <h1 className="text-3xl font-extrabold mb-4 tracking-tight">Administración</h1>
+        <div className="min-h-screen flex flex-col items-center mt-20 p-4 bg-gray-100">
+            <h1 className="text-2xl font-extrabold mb-4 text-center">Administración</h1>
 
             <div className="w-full max-w-sm flex flex-col gap-4">
                 <button
