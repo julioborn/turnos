@@ -28,9 +28,9 @@ export default function Header() {
                 {isOpen ? <XMarkIcon className="w-8 h-8" /> : <Bars3Icon className="w-8 h-8" />}
             </button>
             <img
-                src="/crc4.png"
+                src="/crc-old-nobg.png"
                 alt="Logo Turnos"
-                className="h-10 object-contain"
+                className="h-16 w-20 object-contain"
             />
 
             <AnimatePresence>

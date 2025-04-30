@@ -4,17 +4,27 @@ import Reserva from "@/models/Reserva";
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
     await connectMongoDB();
+
     try {
-        // Actualiza el estado de la reserva a "aprobada"
-        const updatedReserva = await Reserva.findByIdAndUpdate(
-            params.id,
-            { estado: "aprobada" },
-            { new: true }
-        );
-        if (!updatedReserva) {
+        const reservaAprobada = await Reserva.findById(params.id);
+        if (!reservaAprobada) {
             return NextResponse.json({ ok: false, error: "Reserva no encontrada" }, { status: 404 });
         }
-        return NextResponse.json({ ok: true, reserva: updatedReserva });
+
+        // Aprueba esta reserva
+        reservaAprobada.estado = "aprobada";
+        await reservaAprobada.save();
+
+        // Rechaza (elimina) las otras reservas del mismo turno (cancha + horario + fecha)
+        await Reserva.deleteMany({
+            _id: { $ne: reservaAprobada._id },
+            horario: reservaAprobada.horario,
+            fechaTurno: reservaAprobada.fechaTurno,
+            cancha: reservaAprobada.cancha,
+            estado: "pendiente",
+        });
+
+        return NextResponse.json({ ok: true, reserva: reservaAprobada });
     } catch (error: any) {
         return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
     }

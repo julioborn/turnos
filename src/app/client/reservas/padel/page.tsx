@@ -114,12 +114,13 @@ export default function ClientHorarios() {
         return r.horario?._id?.toString() || "";
     }
 
-    function obtenerReserva(horarioId: string, cancha: number): any {
+    function obtenerReservaDelUsuario(horarioId: string, cancha: number): any {
         return reservasDelDia.find(
             (r) =>
                 obtenerIdReserva(r) === horarioId &&
                 r.cancha === cancha &&
-                r.estado !== "rechazada"
+                r.estado !== "rechazada" &&
+                r.correoCliente === session?.user.documento
         );
     }
 
@@ -169,17 +170,27 @@ export default function ClientHorarios() {
                                                 {h.horaInicio} - {h.horaFin}
                                             </td>
                                             {[1, 2].map((cancha) => {
-                                                const reserva = obtenerReserva(idPlantilla, cancha);
-                                                const esDelUsuario =
-                                                    reserva && session?.user.documento === reserva.correoCliente;
+                                                const reservasEnEseHorario = reservasDelDia.filter(
+                                                    (r) =>
+                                                        obtenerIdReserva(r) === idPlantilla &&
+                                                        r.cancha === cancha
+                                                );
 
-                                                const disabled = !!reserva || pasado || noDisponible;
+                                                const reservaDelUsuario = reservasEnEseHorario.find(
+                                                    (r) => r.correoCliente === session?.user.documento && r.estado !== "rechazada"
+                                                );
+
+                                                const hayReservaAprobada = reservasEnEseHorario.some(
+                                                    (r) => r.estado === "aprobada"
+                                                );
+
+                                                const disabled = hayReservaAprobada || pasado || noDisponible;
                                                 let texto = "Reservar";
 
-                                                if (reserva) {
-                                                    texto = esDelUsuario && reserva.estado === "pendiente"
-                                                        ? "Pendiente"
-                                                        : "Reservado";
+                                                if (reservaDelUsuario) {
+                                                    texto = reservaDelUsuario.estado === "pendiente" ? "Pendiente" : "Reservado";
+                                                } else if (hayReservaAprobada) {
+                                                    texto = "Reservado";
                                                 } else if (pasado) {
                                                     texto = "-";
                                                 } else if (noDisponible) {

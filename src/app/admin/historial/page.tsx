@@ -61,6 +61,13 @@ export default function HistorialReservasAdmin() {
         return formato.charAt(0).toUpperCase() + formato.slice(1);
     }
 
+    function yaPasoTurno(fechaTurno: string, horaInicio: string) {
+        const [hora, minuto] = horaInicio.split(":").map(Number);
+        const fecha = new Date(fechaTurno);
+        fecha.setHours(hora, minuto, 0, 0);
+        return fecha < new Date();
+    }
+
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
             <div className="w-full max-w-md">
@@ -95,12 +102,14 @@ export default function HistorialReservasAdmin() {
                                     <p className="text-xs text-gray-500 break-all">{reserva.correoCliente}</p>
                                 </div>
 
-                                <button
-                                    onClick={() => rechazarReserva(reserva._id)}
-                                    className="mt-3 w-full bg-red-500 text-white py-1.5 rounded hover:bg-red-600 transition text-sm"
-                                >
-                                    Rechazar
-                                </button>
+                                {!yaPasoTurno(reserva.fechaTurno, reserva.horario.horaInicio) && (
+                                    <button
+                                        onClick={() => rechazarReserva(reserva._id)}
+                                        className="mt-3 w-full bg-red-500 text-white py-1.5 rounded hover:bg-red-600 transition text-sm"
+                                    >
+                                        Rechazar
+                                    </button>
+                                )}
                             </li>
                         ))}
                     </ul>
