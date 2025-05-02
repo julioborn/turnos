@@ -33,84 +33,89 @@ export default function Header() {
                 className="h-16 w-20 object-contain"
             />
 
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -100 }}
-                        transition={{ duration: 0.3 }}
-                        className="absolute top-full left-0 bg-white text-black shadow-md w-48 rounded-md mt-2 overflow-hidden z-50"
-                    >
-                        <ul className="flex flex-col">
-                            {session?.user.rol === "admin" && (
-                                <>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/admin")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Inicio
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/admin/horarios")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Horarios
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/admin/reservas")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Reservas
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/admin/historial")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Historial
-                                        </button>
-                                    </li>
-                                </>
-                            )}
-                            {session?.user.rol === "cliente" && (
-                                <>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/client")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Inicio
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => handleNavigate("/client/mis-reservas")}
-                                            className="w-full text-left px-4 py-2 hover:bg-green-100"
-                                        >
-                                            Mis Reservas
-                                        </button>
-                                    </li>
-                                </>
-                            )}
+<AnimatePresence>
+    {isOpen && (
+        <>
+            {/* Fondo oscuro detrás del menú */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 bg-black z-40"
+                onClick={toggleMenu}
+            />
+
+            {/* Menú lateral */}
+            <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.3 }}
+                className="fixed top-0 left-0 h-full w-64 bg-[#F3F4F6] text-black shadow-xl z-50 p-6 flex flex-col gap-4"
+            >
+                <h2 className="text-xl font-bold mb-4 text-green-600">Menú</h2>
+                <ul className="flex flex-col gap-2">
+                    {session?.user.rol === "admin" && (
+                        <>
                             <li>
-                                <button
-                                    onClick={() => signOut({ callbackUrl: "/login" })}
-                                    className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600"
-                                >
-                                    Cerrar Sesión
+                                <button onClick={() => handleNavigate("/admin")} 
+                                  className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Inicio
                                 </button>
                             </li>
-                        </ul>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                            <li>
+                                <button onClick={() => handleNavigate("/admin/horarios")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Horarios
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => handleNavigate("/admin/reservas")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Reservas
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => handleNavigate("/admin/historial")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Historial
+                                </button>
+                            </li>
+                        </>
+                    )}
+
+                    {session?.user.rol === "cliente" && (
+                        <>
+                            <li>
+                                <button onClick={() => handleNavigate("/client")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Inicio
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => handleNavigate("/client/mis-reservas")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+>
+                                    Mis Reservas
+                                </button>
+                            </li>
+                        </>
+                    )}
+                </ul>
+
+                <button
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-red-100 transition font-semibold text-red-600"
+
+                >
+                    Cerrar Sesión
+                </button>
+            </motion.div>
+        </>
+    )}
+</AnimatePresence>
+
         </header>
     );
 }
