@@ -39,6 +39,7 @@ export async function middleware(req: NextRequest) {
             ![
                 "/client",
                 "/client/mis-reservas",
+                "/client/perfil",
                 "/client/reservas/padel",
                 "/client/reservas/futbol",
                 "/client/reservas/voley",

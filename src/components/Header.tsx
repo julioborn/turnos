@@ -33,88 +33,118 @@ export default function Header() {
                 className="h-16 w-20 object-contain"
             />
 
-<AnimatePresence>
-    {isOpen && (
-        <>
-            {/* Fondo oscuro detrás del menú */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.5 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black z-40"
-                onClick={toggleMenu}
-            />
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Fondo oscuro detrás del menú */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.5 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="fixed inset-0 bg-black z-40"
+                            onClick={toggleMenu}
+                        />
 
-            {/* Menú lateral */}
-            <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 0.3 }}
-                className="fixed top-0 left-0 h-full w-64 bg-[#F3F4F6] text-black shadow-xl z-50 p-6 flex flex-col gap-4"
-            >
-                <h2 className="text-xl font-bold mb-4 text-green-600">Menú</h2>
-                <ul className="flex flex-col gap-2">
-                    {session?.user.rol === "admin" && (
-                        <>
-                            <li>
-                                <button onClick={() => handleNavigate("/admin")} 
-                                  className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Inicio
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => handleNavigate("/admin/horarios")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Horarios
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => handleNavigate("/admin/reservas")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Reservas
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => handleNavigate("/admin/historial")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Historial
-                                </button>
-                            </li>
-                        </>
-                    )}
+                        {/* Menú lateral */}
+                        <motion.div
+                            initial={{ x: "-100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "-100%" }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed top-0 left-0 h-full w-64 bg-[#F3F4F6] text-black shadow-xl z-50 p-6 flex flex-col gap-4"
+                        >
+                            <h2 className="text-xl font-bold mb-4 text-green-600">Menú</h2>
+                            <ul className="flex flex-col gap-2">
+                                {session?.user.rol === "admin" && (
+                                    <>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/admin")}
+                                                className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Inicio
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/admin/reservas")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
+                                                    <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Reservas
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/admin/horarios")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Horarios
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/admin/historial")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path fill-rule="evenodd" d="M18 5.25a2.25 2.25 0 0 0-2.012-2.238A2.25 2.25 0 0 0 13.75 1h-1.5a2.25 2.25 0 0 0-2.238 2.012c-.875.092-1.6.686-1.884 1.488H11A2.5 2.5 0 0 1 13.5 7v7h2.25A2.25 2.25 0 0 0 18 11.75v-6.5ZM12.25 2.5a.75.75 0 0 0-.75.75v.25h3v-.25a.75.75 0 0 0-.75-.75h-1.5Z" clip-rule="evenodd" />
+                                                    <path fill-rule="evenodd" d="M3 6a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H3Zm6.874 4.166a.75.75 0 1 0-1.248-.832l-2.493 3.739-.853-.853a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.154-.114l3-4.5Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Historial
+                                            </button>
+                                        </li>
+                                    </>
+                                )}
 
-                    {session?.user.rol === "cliente" && (
-                        <>
-                            <li>
-                                <button onClick={() => handleNavigate("/client")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Inicio
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => handleNavigate("/client/mis-reservas")}   className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
->
-                                    Mis Reservas
-                                </button>
-                            </li>
-                        </>
-                    )}
-                </ul>
+                                {session?.user.rol === "cliente" && (
+                                    <>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/client")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Inicio
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/client/mis-reservas")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
+                                                    <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+                                                </svg>
+                                                Mis Reservas
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => handleNavigate("/client/perfil")} className="flex gap-1 w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-green-100 transition font-semibold text-gray-800"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
+                                                    <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                                                </svg>
+                                                Perfil
+                                            </button>
+                                        </li>
+                                    </>
+                                )}
+                            </ul>
 
-                <button
-                    onClick={() => signOut({ callbackUrl: "/login" })}
-                    className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-red-100 transition font-semibold text-red-600"
+                            <button
+                                onClick={() => signOut({ callbackUrl: "/login" })}
+                                className="w-full bg-white text-left px-4 py-3 rounded-lg shadow hover:bg-red-100 transition font-semibold text-red-600"
 
-                >
-                    Cerrar Sesión
-                </button>
-            </motion.div>
-        </>
-    )}
-</AnimatePresence>
+                            >
+                                Cerrar Sesión
+                            </button>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
 
         </header>
     );

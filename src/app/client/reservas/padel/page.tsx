@@ -7,6 +7,7 @@ import { isBefore, format } from "date-fns";
 import { signOut, useSession } from "next-auth/react";
 import { es } from "date-fns/locale";
 import Swal from "sweetalert2";
+import Loader from "@/components/Loader";
 
 const actividadIds: { [key: string]: string } = {
     padel: "67d1cefbbd7067375f6b33ac",
@@ -25,8 +26,11 @@ export default function ClientHorarios() {
     const [horariosPlantilla, setHorariosPlantilla] = useState<any[]>([]);
     const [reservasDelDia, setReservasDelDia] = useState<any[]>([]);
     const deporteId = actividadIds["padel"];
+    const [loadingHorarios, setLoadingHorarios] = useState(true);
+    const [loadingReservas, setLoadingReservas] = useState(true);
 
     async function fetchHorariosPlantilla() {
+        setLoadingHorarios(true);
         try {
             const res = await fetch(`/api/horarios?deporte=${deporteId}`);
             const data = await res.json();
@@ -37,9 +41,11 @@ export default function ClientHorarios() {
         } catch (error) {
             console.error("Error al cargar plantilla de horarios:", error);
         }
+        setLoadingHorarios(false);
     }
 
     async function fetchReservas(fecha: string) {
+        setLoadingReservas(true);
         try {
             const res = await fetch(`/api/reservas?deporte=${deporteId}&fecha=${fecha}`);
             const data = await res.json();
@@ -47,6 +53,7 @@ export default function ClientHorarios() {
         } catch (error) {
             console.error("Error al cargar reservas:", error);
         }
+        setLoadingReservas(false);
     }
 
     useEffect(() => {
@@ -128,7 +135,7 @@ export default function ClientHorarios() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-            <div className="w-full max-w-md mt-16">
+            <div className="w-full max-w-md mt-2">
                 <div className="flex flex-col items-center mb-6">
                     <h1 className="text-4xl uppercase font-black text-green-700 tracking-tight">Pádel</h1>
                     <p className="text-sm uppercase tracking-widest text-gray-500 mt-1">Turnos disponibles</p>
@@ -148,7 +155,9 @@ export default function ClientHorarios() {
                     />
                 </div>
 
-                {horariosPlantilla.length > 0 ? (
+                {loadingHorarios || loadingReservas ? (
+                    <Loader />
+                ) : horariosPlantilla.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="w-full border text-base sm:text-lg">
                             <thead>
@@ -192,7 +201,7 @@ export default function ClientHorarios() {
                                                 } else if (hayReservaAprobada) {
                                                     texto = "Reservado";
                                                 } else if (pasado) {
-                                                    texto = "-";
+                                                    texto = "Reservar";
                                                 } else if (noDisponible) {
                                                     texto = "No disponible";
                                                 }

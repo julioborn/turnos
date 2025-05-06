@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { format, isBefore, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import Swal from "sweetalert2";
+import Loader from "@/components/Loader";
 
 interface Reserva {
     _id: string;
@@ -25,6 +26,8 @@ export default function MisReservas() {
     const { data: session, status } = useSession();
     const [reservas, setReservas] = useState<Reserva[]>([]);
     const [loading, setLoading] = useState(false);
+    const [initialized, setInitialized] = useState(false);
+
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -55,6 +58,7 @@ export default function MisReservas() {
             Swal.fire("Error", "Ocurrió un problema al cargar las reservas", "error");
         }
         setLoading(false);
+        setInitialized(true);
     }
 
     function formatearFecha(fecha: string) {
@@ -71,12 +75,14 @@ export default function MisReservas() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-20">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-4">
             <div className="w-full max-w-xl">
                 <h1 className="text-2xl font-extrabold text-center tracking-tight mb-4">Mis Reservas</h1>
 
-                {loading ? (
-                    <p className="text-center">Cargando...</p>
+                {loading || !initialized ? (
+                    <div className="flex justify-center items-center py-6">
+                        <Loader />
+                    </div>
                 ) : reservas.length > 0 ? (
                     <ul className="space-y-4">
                         {reservas.map((reserva) => (

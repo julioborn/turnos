@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
@@ -11,7 +12,7 @@ const deportes = [
 ];
 
 export default function AdminHorarios() {
-    const [selectedDeporte, setSelectedDeporte] = useState<string>("");
+    const [selectedDeporte, setSelectedDeporte] = useState<string>(deportes[0].id);
     const [horarios, setHorarios] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [mensaje, setMensaje] = useState<string>("");
@@ -19,6 +20,8 @@ export default function AdminHorarios() {
         horaInicio: "",
         horaFin: "",
     });
+    const [loadingHorarios, setLoadingHorarios] = useState(true);
+    const [loadingReservas, setLoadingReservas] = useState(true);
 
     async function fetchHorarios() {
         if (!selectedDeporte) return;
@@ -166,7 +169,9 @@ export default function AdminHorarios() {
                     <>
                         <h2 className="text-xl font-semibold mb-3">Horarios Disponibles</h2>
                         {loading ? (
-                            <p className="text-center">Cargando horarios...</p>
+                            <div className="flex justify-center items-center py-10">
+                                <Loader />
+                            </div>
                         ) : (
                             <ul className="space-y-2">
                                 {horarios.length > 0 ? (

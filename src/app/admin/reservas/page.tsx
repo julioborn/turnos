@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
@@ -115,9 +116,11 @@ export default function AdminReservas() {
                     ))}
                 </div>
 
-                {loading && <p className="text-center text-sm mb-2">Cargando reservas...</p>}
-
-                {reservasFiltradas.length > 0 ? (
+                {loading ? (
+                    <div className="flex justify-center items-center py-10">
+                        <Loader />
+                    </div>
+                ) : reservasFiltradas.length > 0 ? (
                     <ul className="space-y-4">
                         {reservasFiltradas.map((reserva) => (
                             <li
