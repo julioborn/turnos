@@ -175,7 +175,7 @@ export default function ClientHorarios() {
 
                                     return (
                                         <tr key={idPlantilla} className="text-center">
-                                            <td className="border px-3 py-3 font-medium">
+                                            <td className="border px-3 py-3 font-mono">
                                                 {h.horaInicio} - {h.horaFin}
                                             </td>
                                             {[1, 2].map((cancha) => {
@@ -193,7 +193,7 @@ export default function ClientHorarios() {
                                                     (r) => r.estado === "aprobada"
                                                 );
 
-                                                const disabled = hayReservaAprobada || pasado || noDisponible;
+                                                const disabled = hayReservaAprobada || pasado || noDisponible || reservaDelUsuario;
                                                 let texto = "Reservar";
 
                                                 if (reservaDelUsuario) {

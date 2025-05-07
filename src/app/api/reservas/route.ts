@@ -5,6 +5,8 @@ import Reserva from "@/models/Reserva";
 import Horario from "@/models/Horario";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import Precio from "@/models/Precio";
+import mongoose from "mongoose";
 
 
 export async function GET(request: Request) {
@@ -87,7 +89,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: false, error: "Horario no encontrado" }, { status: 404 });
     }
 
-    const deporteId = horarioCompleto.deporte._id;
+    const deporteId = new mongoose.Types.ObjectId(horarioCompleto.deporte._id);
 
     // 📆 Restricción 1: Solo 1 reserva por deporte en el mismo día
     const startOfDay = new Date(fechaLocal);
@@ -138,6 +140,7 @@ export async function POST(request: Request) {
 
     // ✅ Si pasa todas las validaciones, se crea la reserva
     try {
+        const precioHora = await Precio.findOne({ deporte: deporteId });
         const nuevaReserva = await Reserva.create({
             horario,
             fechaTurno: fechaLocal,
@@ -145,6 +148,7 @@ export async function POST(request: Request) {
             nombreCliente: session.user.nombre,
             correoCliente: session.user.documento,
             estado: "pendiente",
+            precioHora: precioHora?.precioHora || 0,
         });
 
         return NextResponse.json({ ok: true, reserva: nuevaReserva }, { status: 201 });

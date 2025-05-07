@@ -29,6 +29,12 @@ export default function AdminDashboard() {
                 >
                     Historial
                 </button>
+                <button
+                    onClick={() => router.push("/admin/precios")}
+                    className="w-full bg-green-500 text-white px-4 py-3 rounded-full font-semibold shadow hover:bg-green-600 transition"
+                >
+                    Precios
+                </button>
             </div>
         </div>
     );

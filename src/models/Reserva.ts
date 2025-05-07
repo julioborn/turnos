@@ -30,8 +30,12 @@ const ReservaSchema: Schema = new Schema(
             enum: ["pendiente", "aprobada", "rechazada"],
             required: true,
         },
+        precioHora: {
+            type: Number,
+            required: false,
+        }
     },
     { timestamps: true }
 );
 
-export default mongoose.models.Reserva || mongoose.model<IReserva>("Reserva", ReservaSchema);
+export default mongoose.models.Reserva || mongoose.model<IReserva>("Reserva", ReservaSchema, 'reservas');

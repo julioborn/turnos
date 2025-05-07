@@ -20,6 +20,7 @@ interface Reserva {
             nombre: string;
         };
     };
+    precioHora: number
 }
 
 export default function MisReservas() {
@@ -112,6 +113,7 @@ export default function MisReservas() {
                                 </p>
                                 <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
                                 <p>Cancha {reserva.cancha}</p>
+                                <p>${reserva.precioHora}</p>
                             </li>
                         ))}
                     </ul>

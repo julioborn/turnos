@@ -97,6 +97,7 @@ export default function HistorialReservasAdmin() {
                                 <div className="mb-2 text-gray-700">
                                     <p>{formatearFechaConDia(reserva.fechaTurno)}</p>
                                     <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
+                                    <p>${reserva.precioHora}</p>
                                 </div>
 
                                 <div className="border-t pt-2 text-gray-600">
