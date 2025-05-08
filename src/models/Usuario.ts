@@ -27,7 +27,7 @@ const UsuarioSchema: Schema = new Schema({
     },
     rol: {
         type: String,
-        enum: ["admin", "cliente"],
+        enum: ["admin", "cliente", "superusuario"],
         default: "cliente",
     },
     documento: {

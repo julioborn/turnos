@@ -67,7 +67,7 @@ export default function AdminPrecios() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-20">
-            <h2 className="text-2xl font-extrabold mb-6 text-center">Editar Precios por Deporte</h2>
+            <h2 className="text-2xl font-extrabold mb-6 text-center">Editar Precios</h2>
 
             <div className="flex flex-wrap justify-center gap-2 mb-6">
                 {deportes.map((d) => (

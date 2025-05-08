@@ -13,10 +13,12 @@ export default function LoginPage() {
         if (session) {
             if (session.user.rol === "admin") {
                 router.push("/admin");
+            } else if (session.user.rol === "superusuario") {
+                router.push("/admin");
             } else if (session.user.rol === "cliente") {
                 router.push("/client");
             } else {
-                router.push("/dashboard");
+                router.push("/");
             }
         }
     }, [session, router]);
@@ -40,7 +42,7 @@ export default function LoginPage() {
         if (result?.error) {
             setError(result.error);
         } else {
-            router.push("/dashboard");
+            router.push("/");
         }
         setLoading(false);
     };
