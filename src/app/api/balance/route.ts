@@ -24,18 +24,33 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const anio = searchParams.get("anio");
     const mes = searchParams.get("mes");
+    const desde = searchParams.get("desde");
+    const hasta = searchParams.get("hasta");
 
-    const query: any = {
-        estado: "aprobada"
-    };
+    const query: any = { estado: "aprobada" };
 
-    if (anio && mes) {
+    // 🎯 1. Rango personalizado con fechas ISO
+    if (desde && hasta) {
+        const start = new Date(desde);
+        const end = new Date(hasta);
+        end.setHours(23, 59, 59, 999);
+        query.fechaTurno = { $gte: start, $lte: end };
+    }
+
+    // 🎯 2. Año completo
+    else if (anio && (!mes || mes === "0")) {
+        const year = parseInt(anio, 10);
+        const start = new Date(year, 0, 1);
+        const end = new Date(year, 11, 31, 23, 59, 59, 999);
+        query.fechaTurno = { $gte: start, $lte: end };
+    }
+
+    // 🎯 3. Año + mes específicos
+    else if (anio && mes) {
         const year = parseInt(anio, 10);
         const month = parseInt(mes, 10) - 1;
-
         const start = new Date(year, month, 1);
         const end = new Date(year, month + 1, 0, 23, 59, 59, 999);
-
         query.fechaTurno = { $gte: start, $lte: end };
     }
 

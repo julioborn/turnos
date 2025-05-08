@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from "date-fns/locale";
 
 interface Balance {
     total: number;
@@ -15,6 +18,7 @@ type BalanceResponse = {
 };
 
 const meses = [
+    { nombre: "Todos", valor: 0 },
     { nombre: "Enero", valor: 1 },
     { nombre: "Febrero", valor: 2 },
     { nombre: "Marzo", valor: 3 },
@@ -29,15 +33,18 @@ const meses = [
     { nombre: "Diciembre", valor: 12 },
 ];
 
+
 export default function BalancePage() {
     const [balanceFiltrado, setBalanceFiltrado] = useState<BalanceResponse | null>(null);
     const [balanceTotal, setBalanceTotal] = useState<BalanceResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState<string | null>(null);
-
     const [añosDisponibles, setAñosDisponibles] = useState<number[]>([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState<number>(new Date().getFullYear());
     const [mesSeleccionado, setMesSeleccionado] = useState<number>(new Date().getMonth() + 1);
+    const [rangoFechas, setRangoFechas] = useState<[Date | null, Date | null]>([null, null]);
+    const [desde, hasta] = rangoFechas;
+
 
     const toggle = (key: string) => {
         setOpen(open === key ? null : key);
@@ -69,8 +76,21 @@ export default function BalancePage() {
         const fetchBalances = async () => {
             setLoading(true);
             try {
+                let filtroUrl = "";
+
+                // Si hay fechas en el rango seleccionado (con react-datepicker)
+                if (desde && hasta) {
+                    const desdeStr = desde.toISOString().split("T")[0]; // YYYY-MM-DD
+                    const hastaStr = hasta.toISOString().split("T")[0];
+                    filtroUrl = `/api/balance?desde=${desdeStr}&hasta=${hastaStr}`;
+                } else if (mesSeleccionado === 0) {
+                    filtroUrl = `/api/balance?anio=${anioSeleccionado}`;
+                } else {
+                    filtroUrl = `/api/balance?anio=${anioSeleccionado}&mes=${mesSeleccionado}`;
+                }
+
                 const [filtradoRes, totalRes] = await Promise.all([
-                    fetch(`/api/balance?anio=${anioSeleccionado}&mes=${mesSeleccionado}`),
+                    fetch(filtroUrl),
                     fetch(`/api/balance`)
                 ]);
 
@@ -80,7 +100,7 @@ export default function BalancePage() {
                 if (filtradoRes.ok && dataFiltrado.ok) {
                     setBalanceFiltrado(dataFiltrado);
                 } else {
-                    throw new Error("Error al obtener balance mensual");
+                    throw new Error("Error al obtener balance filtrado");
                 }
 
                 if (totalRes.ok && dataTotal.ok) {
@@ -96,28 +116,18 @@ export default function BalancePage() {
             }
         };
 
-        if (anioSeleccionado && mesSeleccionado) {
+        // Ejecutar solo si hay al menos un filtro válido
+        const fechasValidas = desde !== null && hasta !== null;
+        if (fechasValidas || (anioSeleccionado && mesSeleccionado !== null)) {
             fetchBalances();
         }
-    }, [anioSeleccionado, mesSeleccionado]);
+    }, [anioSeleccionado, mesSeleccionado, desde, hasta]);
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-20">
 
-            {/* 🧾 Balance general completo */}
-            {balanceTotal && (
-                <div className="w-full max-w-3xl">
-                    <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
-                        Balance Total
-                    </h2>
-                    <div className="bg-white p-6 rounded-lg shadow-md border-2 border-green-600">
-                        <Card label="Total" valor={balanceTotal.general.total} />
-                    </div>
-                </div>
-            )}
-
             <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
-                Balance por Mes
+                Balance
             </h2>
 
             {/* Selectores */}
@@ -145,6 +155,19 @@ export default function BalancePage() {
                         </option>
                     ))}
                 </select>
+
+                <DatePicker
+                    selectsRange
+                    startDate={desde}
+                    endDate={hasta}
+                    onChange={(update) => setRangoFechas(update as [Date | null, Date | null])}
+                    isClearable
+                    placeholderText="Seleccionar rango de fechas"
+                    dateFormat="dd-MM-yyyy"
+                    className="px-4 py-2 border rounded bg-white"
+                    locale={es} // 👈 Acá le pasás el idioma
+                />
+
             </div>
 
             {loading ? (
@@ -166,7 +189,7 @@ export default function BalancePage() {
                             </h2>
 
                             {/* Totales por Deporte visibles directamente */}
-                                {balanceFiltrado.deportes &&
+                            {balanceFiltrado.deportes &&
                                 Object.entries(balanceFiltrado.deportes).map(([deporte, data]) => (
                                     <div key={deporte} className="bg-white rounded-md shadow p-6 border-2 border-green-600">
                                         <h4 className="text-lg font-bold text-green-700 uppercase mb-2">
