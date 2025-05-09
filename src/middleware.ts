@@ -14,21 +14,24 @@ export async function middleware(req: NextRequest) {
     console.log("🔒 Ejecutando middleware para:", pathname);
     console.log("🧾 Token:", token);
 
-    // Si no hay token y se intenta acceder a rutas protegidas
-    if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/client"))) {
+    // Si no hay token
+    if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/client") || pathname === "/admin/balance")) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    // Si hay token, validar el acceso por rol
     if (token) {
         const rol = token.rol;
 
-        // SUPERUSUARIO puede acceder a todo lo de admin + rutas exclusivas
-        if (rol === "superusuario") {
-            return NextResponse.next(); // acceso libre a todas las rutas protegidas
+        // 🔓 SUPERUSUARIO: acceso completo
+        if (rol === "superusuario") return NextResponse.next();
+
+        // 🚫 Bloquear acceso a /balance para otros roles
+        if (pathname === "/admin/balance") {
+            console.log("⛔ ACCESO DENEGADO a /balance para rol:", rol);
+            return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        // ADMIN: acceso solo a rutas administrativas específicas (excluyendo /admin/balance)
+        // ✅ ADMIN
         if (
             rol === "admin" &&
             ![
@@ -43,7 +46,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.redirect(new URL("/admin", req.url));
         }
 
-        // CLIENTE: acceso solo a su panel y rutas de reservas
+        // ✅ CLIENTE
         if (
             rol === "cliente" &&
             ![
@@ -65,5 +68,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/admin/:path*", "/client/:path*"],
+    matcher: ["/admin/:path*", "/client/:path*", "/admin/balance"],
 };
+

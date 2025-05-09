@@ -164,7 +164,7 @@ export default function BalancePage() {
                     isClearable
                     placeholderText="Seleccionar rango de fechas"
                     dateFormat="dd-MM-yyyy"
-                    className="px-4 py-2 border rounded bg-white"
+                    className="px-4 py-2 border rounded bg-white cursor-pointer"
                     locale={es} // 👈 Acá le pasás el idioma
                 />
 
