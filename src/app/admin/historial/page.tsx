@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import Loader from "@/components/Loader"; // ✅ Importación añadida
+import Loader from "@/components/Loader"; 
 
 export default function HistorialReservasAdmin() {
     const [reservasAprobadas, setReservasAprobadas] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true); // ← Antes estaba en false
+    const [loading, setLoading] = useState(true);
 
     async function fetchReservasAprobadas() {
         setLoading(true);

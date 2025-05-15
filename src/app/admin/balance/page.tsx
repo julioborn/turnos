@@ -125,70 +125,68 @@ export default function BalancePage() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-20">
-
-            <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
-                Balance
-            </h2>
-
-            {/* Selectores */}
-            <div className="flex flex-wrap gap-4 mb-6 justify-center">
-                <select
-                    className="px-4 py-2 border rounded bg-white"
-                    value={anioSeleccionado}
-                    onChange={(e) => setAnioSeleccionado(Number(e.target.value))}
-                >
-                    {añosDisponibles.map((anio) => (
-                        <option key={anio} value={anio}>
-                            {anio}
-                        </option>
-                    ))}
-                </select>
-
-                <select
-                    className="px-4 py-2 border rounded bg-white"
-                    value={mesSeleccionado}
-                    onChange={(e) => setMesSeleccionado(Number(e.target.value))}
-                >
-                    {meses.map((mes) => (
-                        <option key={mes.valor} value={mes.valor}>
-                            {mes.nombre}
-                        </option>
-                    ))}
-                </select>
-
-                <DatePicker
-                    selectsRange
-                    startDate={desde}
-                    endDate={hasta}
-                    onChange={(update) => setRangoFechas(update as [Date | null, Date | null])}
-                    isClearable
-                    placeholderText="Seleccionar rango de fechas"
-                    dateFormat="dd-MM-yyyy"
-                    className="px-4 py-2 border rounded bg-white cursor-pointer"
-                    locale={es} // 👈 Acá le pasás el idioma
-                />
-
-            </div>
-
+    
             {loading ? (
-                <div className="flex justify-center items-center h-32">
+                <div className="flex justify-center items-center flex-grow h-[70vh]">
                     <Loader />
                 </div>
             ) : (
                 <>
-                    {/* 💰 Balance filtrado por año+mes */}
+                    <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
+                        Balance
+                    </h2>
+    
+                    {/* Selectores */}
+                    <div className="flex flex-wrap gap-4 mb-6 justify-center">
+                        <select
+                            className="px-4 py-2 border rounded bg-white"
+                            value={anioSeleccionado}
+                            onChange={(e) => setAnioSeleccionado(Number(e.target.value))}
+                        >
+                            {añosDisponibles.map((anio) => (
+                                <option key={anio} value={anio}>
+                                    {anio}
+                                </option>
+                            ))}
+                        </select>
+    
+                        <select
+                            className="px-4 py-2 border rounded bg-white"
+                            value={mesSeleccionado}
+                            onChange={(e) => setMesSeleccionado(Number(e.target.value))}
+                        >
+                            {meses.map((mes) => (
+                                <option key={mes.valor} value={mes.valor}>
+                                    {mes.nombre}
+                                </option>
+                            ))}
+                        </select>
+    
+                        <DatePicker
+                            selectsRange
+                            startDate={desde}
+                            endDate={hasta}
+                            onChange={(update) => setRangoFechas(update as [Date | null, Date | null])}
+                            isClearable
+                            placeholderText="Seleccionar rango de fechas"
+                            dateFormat="dd-MM-yyyy"
+                            className="px-4 py-2 border rounded bg-white cursor-pointer"
+                            locale={es}
+                        />
+                    </div>
+    
+                    {/* 💰 Balance filtrado */}
                     {balanceFiltrado && (
                         <div className="w-full max-w-3xl space-y-6">
-                            {/* Total mensual general */}
+                            {/* Total general */}
                             <div className="bg-white p-6 rounded-lg shadow-md border-2 border-green-600">
                                 <Card label="Total" valor={balanceFiltrado.general.total} />
                             </div>
-
+    
                             <h2 className="text-2xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
                                 Balance por Deporte
                             </h2>
-
-                            {/* Totales por Deporte visibles directamente */}
+    
                             {balanceFiltrado.deportes &&
                                 Object.entries(balanceFiltrado.deportes).map(([deporte, data]) => (
                                     <div key={deporte} className="bg-white rounded-md shadow p-6 border-2 border-green-600">
@@ -204,6 +202,7 @@ export default function BalancePage() {
             )}
         </div>
     );
+    
 }
 
 function Card({ label, valor }: { label: string; valor: number }) {
