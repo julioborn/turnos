@@ -4,10 +4,10 @@ import Loader from "@/components/Loader";
 import Swal from "sweetalert2";
 
 const deportes: { nombre: string; id: string }[] = [
-    { nombre: "padel", id: "padel" },
-    { nombre: "futbol", id: "futbol" },
-    { nombre: "basquet", id: "basquet" },
-    { nombre: "voley", id: "voley" },
+    { nombre: "pádel", id: "padel" },
+    { nombre: "fútbol", id: "futbol" },
+    { nombre: "básquet", id: "basquet" },
+    { nombre: "vóley", id: "voley" },
 ];
 
 export default function AdminPrecios() {

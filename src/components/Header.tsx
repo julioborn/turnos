@@ -25,15 +25,32 @@ export default function Header() {
     };
 
     return (
-        <header className="fixed top-0 left-0 w-full bg-green-600 text-white shadow-md px-6 py-4 flex justify-between items-center z-50 h-20">
+        <header className="fixed top-0 left-0 w-full bg-green-600 text-white shadow-md px-4 py-4 flex justify-between items-center z-50 h-20 sm:px-6">
+
+            {/* Botón de menú */}
             <button onClick={toggleMenu} className="focus:outline-none">
                 {isOpen ? <XMarkIcon className="w-8 h-8" /> : <Bars3Icon className="w-8 h-8" />}
             </button>
-            <img
-                src="/crc-old-nobg.png"
-                alt="Logo Turnos"
-                className="h-16 w-20 object-contain"
-            />
+
+            {/* Logo centrado en mobile */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 sm:static sm:translate-x-0 sm:ml-auto">
+                <img
+                    src="/crc-old-nobg.png"
+                    alt="Logo Turnos"
+                    className="h-16 w-20 object-contain mx-auto"
+                />
+            </div>
+
+            {/* Botón de recarga a la derecha en mobile */}
+            <button
+                onClick={() => location.reload()}
+                className="focus:outline-none sm:hidden"
+                aria-label="Recargar"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-7">
+                    <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
+                </svg>
+            </button>
 
             <AnimatePresence>
                 {isOpen && (

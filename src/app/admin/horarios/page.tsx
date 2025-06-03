@@ -30,10 +30,7 @@ export default function AdminHorarios() {
             const res = await fetch(`/api/horarios?deporte=${selectedDeporte}`);
             const data = await res.json();
             if (data.ok) {
-                const ordenados = (data.horarios || []).sort((a: any, b: any) =>
-                    a.horaInicio.localeCompare(b.horaInicio)
-                );
-                setHorarios(ordenados);
+                setHorarios(data.horarios || []);
             } else {
                 setMensaje("Error: " + data.error);
             }
