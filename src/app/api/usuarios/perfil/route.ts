@@ -24,7 +24,9 @@ export async function GET() {
         nombre: usuario.nombre,
         documento: usuario.documento,
         telefono: usuario.telefono ?? "",
+        email: usuario.email ?? "",
     });
+
 }
 
 export async function PUT(req: Request) {
@@ -34,16 +36,16 @@ export async function PUT(req: Request) {
         return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const { nombre, telefono } = await req.json();
+    const { nombre, telefono, email } = await req.json();
 
     // Validación básica
-    if (!nombre || !telefono) {
+    if (!nombre || !telefono || !email) {
         return NextResponse.json({ error: "Faltan campos requeridos" }, { status: 400 });
     }
 
     const updateResult = await Usuario.updateOne(
         { documento: session.user.documento },
-        { $set: { nombre, telefono } }
+        { $set: { nombre, telefono, email } }
     );
 
     if (updateResult.modifiedCount === 0) {

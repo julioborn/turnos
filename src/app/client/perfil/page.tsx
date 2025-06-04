@@ -7,7 +7,7 @@ import Loader from "@/components/Loader"; // ✅ importamos el Loader
 
 export default function PerfilCliente() {
     const { data: session } = useSession();
-    const [usuario, setUsuario] = useState({ nombre: "", documento: "", telefono: "" });
+    const [usuario, setUsuario] = useState({ nombre: "", documento: "", telefono: "", email: "" });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +19,7 @@ export default function PerfilCliente() {
                         nombre: data.nombre || "",
                         documento: data.documento || "",
                         telefono: data.telefono || "",
+                        email: data.email || "",
                     });
                     setLoading(false);
                 });
@@ -77,6 +78,15 @@ export default function PerfilCliente() {
                 <input
                     name="telefono"
                     value={usuario.telefono}
+                    onChange={handleChange}
+                    className="mb-4 w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+
+                <label className="block mb-2 font-medium text-sm text-gray-700">Email</label>
+                <input
+                    name="email"
+                    type="email"
+                    value={usuario.email}
                     onChange={handleChange}
                     className="mb-4 w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
