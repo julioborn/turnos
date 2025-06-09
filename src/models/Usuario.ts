@@ -19,9 +19,8 @@ const UsuarioSchema: Schema = new Schema({
     },
     email: {
         type: String,
-        required: false,
-        // Si se desea, se puede configurar para que sea único solo si se proporciona,
-        // pero para simplificar lo dejamos sin unique.
+        required: true,
+        unique: true,
     },
     password: {
         type: String,

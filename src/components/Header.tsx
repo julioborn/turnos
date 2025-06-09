@@ -13,9 +13,14 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const esAdmin = session?.user.rol === "admin" || session?.user.rol === "superusuario";
 
-    // No mostrar el header en /login
-    if (pathname === "/login") return null;
-    if (pathname === "/register") return null;
+    if (
+        pathname === "/login" ||
+        pathname === "/register" ||
+        pathname === "/reset/request" ||
+        pathname.startsWith("/reset/")
+    ) {
+        return null;
+    }
 
     const toggleMenu = () => setIsOpen(!isOpen);
 

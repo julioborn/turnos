@@ -76,16 +76,15 @@ export default function RegisterPage() {
                             required
                         />
                     </div>
-                    <div>
-                        <label className="block text-gray-700">Correo electrónico <span className="text-red-600">(Opcional)</span></label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 w-full border border-gray-300 rounded p-2"
-                            placeholder="correo@ejemplo.com"
-                        />
-                    </div>
+                    <label className="block text-gray-700">Correo electrónico</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 w-full border border-gray-300 rounded p-2"
+                        placeholder="correo@ejemplo.com"
+                        required
+                    />
                     <div>
                         <label className="block text-gray-700">Contraseña</label>
                         <input
