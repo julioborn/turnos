@@ -8,6 +8,8 @@ export interface IUsuario extends Document {
     rol: "admin" | "cliente";
     documento: string;
     telefono: string;
+    resetToken?: string;
+    resetTokenExp?: Date;
 }
 
 const UsuarioSchema: Schema = new Schema({
@@ -37,6 +39,16 @@ const UsuarioSchema: Schema = new Schema({
     telefono: {
         type: String,
         required: true,
+    },
+    resetToken:
+    {
+        type: String,
+        required: false
+    },
+    resetTokenExp:
+    {
+        type: Date,
+        required: false
     },
 });
 

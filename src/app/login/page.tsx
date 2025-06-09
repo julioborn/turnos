@@ -48,7 +48,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="mt-20 flex items-center justify-center px-3">
+        <div className="mt-20 flex flex-col items-center justify-center px-3">
             <div className="w-full max-w-sm bg-white p-6 rounded-xl shadow-lg">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Iniciar Sesión</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -91,13 +91,19 @@ export default function LoginPage() {
                     >
                         {loading ? "Cargando..." : "Ingresar"}
                     </button>
-                    <div className="text-center mt-4 text-sm">
-                        <span className="text-gray-600">¿No tenés cuenta?</span>{" "}
-                        <Link href="/register" className="text-green-500 hover:underline font-medium">
-                            Registrate
+                    <div className="text-center mt-2">
+                        <Link href="/reset/request" className="text-sm text-green-600 hover:underline">
+                            ¿Olvidaste tu contraseña?
                         </Link>
                     </div>
                 </form>
+            </div>
+
+            <div className="w-full max-w-sm bg-white p-3 rounded-xl shadow-lg mt-2 flex flex-col justify-center items-center text-sm">
+                <span className="text-gray-600">¿No tenés cuenta?</span>{" "}
+                <Link href="/register" className="text-green-500 hover:underline font-medium">
+                    Registrate
+                </Link>
             </div>
         </div>
     );
