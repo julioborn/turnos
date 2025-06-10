@@ -36,6 +36,7 @@ export async function middleware(req: NextRequest) {
             rol === "admin" &&
             ![
                 "/admin",
+                "/perfil",
                 "/admin/reservas",
                 "/admin/horarios",
                 "/admin/historial",
@@ -52,7 +53,7 @@ export async function middleware(req: NextRequest) {
             ![
                 "/client",
                 "/client/mis-reservas",
-                "/client/perfil",
+                "/perfil",
                 "/client/reservas/padel",
                 "/client/reservas/futbol",
                 "/client/reservas/voley",
@@ -62,6 +63,9 @@ export async function middleware(req: NextRequest) {
             console.log("⛔ CLIENTE intentando acceder a ruta no autorizada:", pathname);
             return NextResponse.redirect(new URL("/client", req.url));
         }
+
+        return NextResponse.next();
+
     }
 
     return NextResponse.next();

@@ -97,6 +97,16 @@ export default function PerfilCliente() {
                 >
                     Guardar Cambios
                 </button>
+
+                <div className="mt-6">
+                    <button
+                        onClick={() => window.location.href = "/reset/request"}
+                        className="w-full border border-gray-300 text-gray-600 py-2 rounded hover:bg-gray-100 transition"
+                    >
+                        Cambiar Contraseña
+                    </button>
+                </div>
+
             </div>
         </div>
     );
