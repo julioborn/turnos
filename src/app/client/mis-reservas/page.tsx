@@ -112,7 +112,9 @@ export default function MisReservas() {
                                     </p>
                                 </p>
                                 <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
-                                <p>Cancha {reserva.cancha}</p>
+                                {reserva.horario.deporte.nombre.toLowerCase() === "pádel" && (
+                                    <p>Cancha {reserva.cancha}</p>
+                                )}
                                 <p>${reserva.precioHora}</p>
                             </li>
                         ))}

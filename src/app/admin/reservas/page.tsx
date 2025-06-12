@@ -1,11 +1,17 @@
 "use client";
 
 import Loader from "@/components/Loader";
-import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 const deportes = ["padel", "futbol", "basquet", "voley"];
+
+const labelDeportes: Record<string, string> = {
+    padel: "Pádel",
+    futbol: "Fútbol",
+    basquet: "Básquet",
+    voley: "Vóley",
+};
 
 export default function AdminReservas() {
     const [reservasPendientes, setReservasPendientes] = useState<any[]>([]);
@@ -106,7 +112,7 @@ export default function AdminReservas() {
                                 : "bg-white border border-green-600 text-green-600"
                                 }`}
                         >
-                            {deporte.charAt(0).toUpperCase() + deporte.slice(1)}
+                            {labelDeportes[deporte]}
                             {cantidadPorDeporte(deporte) > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center shadow">
                                     {cantidadPorDeporte(deporte)}
