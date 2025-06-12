@@ -89,33 +89,52 @@ export default function MisReservas() {
                         {reservas.map((reserva) => (
                             <li
                                 key={reserva._id}
-                                className="border-l-4 border-green-500 rounded-md bg-white shadow-md p-4 text-sm transition hover:shadow-lg"
+                                className="rounded-xl shadow-lg bg-white border-l-4 border-green-500 transition p-4 text-sm space-y-3"
                             >
-                                <div className="flex justify-between items-center mb-2">
-                                    <span className="text-green-700 font-semibold uppercase">
-                                        {reserva.horario?.deporte?.nombre}
+                                {/* Actividad y estado */}
+                                <div className="flex justify-between items-center">
+                                    <span className="text-green-700 font-bold uppercase tracking-wider text-sm">
+                                        {reserva.horario?.deporte?.nombre || "Sin actividad"}
                                     </span>
                                     <span
-                                        className={`text-xs px-2 py-1 rounded ${reserva.estado === "aprobada"
-                                            ? "bg-green-100 text-green-700"
-                                            : reserva.estado === "pendiente"
-                                                ? "bg-yellow-100 text-yellow-700"
-                                                : "bg-red-100 text-red-600"
+                                        className={`text-xs px-3 py-1 rounded-full font-semibold ${reserva.estado === "aprobada"
+                                                ? "bg-green-100 text-green-700"
+                                                : reserva.estado === "pendiente"
+                                                    ? "bg-yellow-100 text-yellow-700"
+                                                    : "bg-red-100 text-red-600"
                                             }`}
                                     >
                                         {reserva.estado.charAt(0).toUpperCase() + reserva.estado.slice(1)}
                                     </span>
                                 </div>
-                                <p className="text-gray-700 font-medium">
-                                    <p className="text-sm font-medium text-gray-700">
-                                        {formatearFechaConDia(reserva.fechaTurno)}
-                                    </p>
-                                </p>
-                                <p>{reserva.horario.horaInicio} - {reserva.horario.horaFin} ⏰</p>
-                                {reserva.horario.deporte.nombre.toLowerCase() === "pádel" && (
-                                    <p>Cancha {reserva.cancha}</p>
+
+                                {/* Fecha y horario */}
+                                <div className="flex items-center gap-2 text-gray-700">
+                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3M16 7V3M3 11h18M5 19h14a2 2 0 002-2V7H3v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <span className="font-medium">{formatearFechaConDia(reserva.fechaTurno)}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-700">
+                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>{reserva.horario.horaInicio} - {reserva.horario.horaFin}</span>
+                                </div>
+                                {reserva.horario?.deporte?.nombre?.toLowerCase() === "pádel" && (
+                                    <div className="flex items-center gap-2 text-gray-700">
+                                        <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                                        </svg>
+                                        <span>Cancha {reserva.cancha}</span>
+                                    </div>
                                 )}
-                                <p>${reserva.precioHora}</p>
+                                <div className="flex items-center gap-2 text-gray-700">
+                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-2.5 0-4.5 2-4.5 4.5S9.5 17 12 17s4.5-2 4.5-4.5S14.5 8 12 8z" />
+                                    </svg>
+                                    <span>${reserva.precioHora}</span>
+                                </div>
                             </li>
                         ))}
                     </ul>
