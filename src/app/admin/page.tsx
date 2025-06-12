@@ -13,16 +13,16 @@ export default function AdminDashboard() {
 
             <div className="w-full max-w-sm flex flex-col gap-4">
                 <button
-                    onClick={() => router.push("/admin/horarios")}
-                    className="w-full bg-green-500 text-white px-4 py-3 rounded-full font-semibold shadow hover:bg-green-600 transition"
-                >
-                    Horarios
-                </button>
-                <button
                     onClick={() => router.push("/admin/reservas")}
                     className="w-full bg-green-500 text-white px-4 py-3 rounded-full font-semibold shadow hover:bg-green-600 transition"
                 >
                     Reservas
+                </button>
+                <button
+                    onClick={() => router.push("/admin/horarios")}
+                    className="w-full bg-green-500 text-white px-4 py-3 rounded-full font-semibold shadow hover:bg-green-600 transition"
+                >
+                    Horarios
                 </button>
                 <button
                     onClick={() => router.push("/admin/historial")}
