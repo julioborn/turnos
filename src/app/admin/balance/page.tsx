@@ -124,7 +124,7 @@ export default function BalancePage() {
     }, [anioSeleccionado, mesSeleccionado, desde, hasta]);
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-20">
+        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-5">
     
             {loading ? (
                 <div className="flex justify-center items-center flex-grow h-[70vh]">
@@ -132,9 +132,7 @@ export default function BalancePage() {
                 </div>
             ) : (
                 <>
-                    <h2 className="text-3xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
-                        Balance
-                    </h2>
+                    <h1 className="text-3xl font-extrabold mb-4 text-center">Balance</h1>
     
                     {/* Selectores */}
                     <div className="flex flex-wrap gap-4 mb-6 justify-center">
@@ -170,7 +168,7 @@ export default function BalancePage() {
                             isClearable
                             placeholderText="Seleccionar rango de fechas"
                             dateFormat="dd-MM-yyyy"
-                            className="px-4 py-2 border rounded bg-white cursor-pointer"
+                            className="px-6 py-2 border rounded bg-white cursor-pointer"
                             locale={es}
                         />
                     </div>
@@ -183,9 +181,7 @@ export default function BalancePage() {
                                 <Card label="Total" valor={balanceFiltrado.general.total} />
                             </div>
     
-                            <h2 className="text-2xl font-extrabold mb-6 text-center text-green-700 uppercase mt-10">
-                                Balance por Deporte
-                            </h2>
+                            <h1 className="text-3xl font-extrabold mb-4 text-center">Balance por Deporte</h1>
     
                             {balanceFiltrado.deportes &&
                                 Object.entries(balanceFiltrado.deportes).map(([deporte, data]) => (

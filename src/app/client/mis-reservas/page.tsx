@@ -78,7 +78,7 @@ export default function MisReservas() {
     return (
         <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-4">
             <div className="w-full max-w-xl">
-                <h1 className="text-2xl font-extrabold text-center tracking-tight mb-4">Mis Reservas</h1>
+                <h1 className="text-3xl font-extrabold text-center tracking-tight mb-4">Mis Reservas</h1>
 
                 {loading || !initialized ? (
                     <div className="flex justify-center items-center py-6">

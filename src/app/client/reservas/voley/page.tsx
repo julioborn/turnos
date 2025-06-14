@@ -125,10 +125,10 @@ export default function ReservasVoley() {
   const esHoy = format(selectedDate, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-      <div className="w-full max-w-md mt-2">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+      <div className="w-full max-w-md mt-10">
         <div className="flex flex-col items-center mb-6">
-          <h1 className="text-4xl uppercase font-black text-green-700 tracking-tight">Vóley</h1>
+          <h1 className="text-3xl uppercase font-black text-green-700 tracking-tight">Vóley</h1>
           <p className="text-sm uppercase tracking-widest text-gray-500 mt-1">Turnos disponibles</p>
         </div>
 

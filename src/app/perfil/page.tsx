@@ -53,9 +53,10 @@ export default function PerfilCliente() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6 flex justify-center items-start pt-24">
-            <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4 text-green-600">Mi Perfil</h2>
+        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
+            <h1 className="text-3xl font-extrabold text-center tracking-tight mb-4">Mi Perfil</h1>
+
+            <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md flex flex-col">
 
                 <label className="block mb-2 font-medium text-sm text-gray-700">Nombre</label>
                 <input
@@ -98,7 +99,9 @@ export default function PerfilCliente() {
                     Guardar Cambios
                 </button>
 
-                <div className="mt-6">
+                <hr className="my-6 border-t border-gray-300" />
+
+                <div>
                     <button
                         onClick={() => window.location.href = "/reset/request"}
                         className="w-full border border-gray-300 text-gray-600 py-2 rounded hover:bg-gray-100 transition"
@@ -106,6 +109,7 @@ export default function PerfilCliente() {
                         Cambiar Contraseña
                     </button>
                 </div>
+
 
             </div>
         </div>
