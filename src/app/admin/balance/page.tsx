@@ -124,7 +124,7 @@ export default function BalancePage() {
     }, [anioSeleccionado, mesSeleccionado, desde, hasta]);
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-5">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-5">
     
             {loading ? (
                 <div className="flex justify-center items-center flex-grow h-[70vh]">
@@ -132,7 +132,7 @@ export default function BalancePage() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-3xl font-extrabold mb-4 text-center">Balance</h1>
+                    <h1 className="text-4xl font-extrabold mb-6 text-center">Balance</h1>
     
                     {/* Selectores */}
                     <div className="flex flex-wrap gap-4 mb-6 justify-center">
@@ -181,7 +181,7 @@ export default function BalancePage() {
                                 <Card label="Total" valor={balanceFiltrado.general.total} />
                             </div>
     
-                            <h1 className="text-3xl font-extrabold mb-4 text-center">Balance por Deporte</h1>
+                            <h1 className="text-4xl font-extrabold  text-center">Balance por Deporte</h1>
     
                             {balanceFiltrado.deportes &&
                                 Object.entries(balanceFiltrado.deportes).map(([deporte, data]) => (

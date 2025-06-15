@@ -71,9 +71,9 @@ export default function HistorialReservasAdmin() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center mt-10">
+        <div className="min-h-screen bg-gray-100 flex p-4 flex-col items-center mt-10">
             <div className="w-full max-w-md">
-                <h2 className="text-3xl font-extrabold mb-4 text-center">Historial</h2>
+                <h2 className="text-4xl font-extrabold mb-6 text-center">Historial</h2>
 
                 {loading ? (
                     <div className="flex justify-center items-center py-10">

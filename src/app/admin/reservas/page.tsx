@@ -98,9 +98,9 @@ export default function AdminReservas() {
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center mt-10">
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-10">
             <div className="w-full max-w-md">
-                <h2 className="text-3xl font-extrabold mb-4 text-center">Reservas Pendientes</h2>
+                <h2 className="text-4xl font-extrabold mb-6 text-center">Reservas</h2>
 
                 <div className="flex flex-wrap justify-center gap-2 mb-6">
                     {deportes.map((deporte) => (

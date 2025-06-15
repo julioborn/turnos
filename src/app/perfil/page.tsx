@@ -53,8 +53,8 @@ export default function PerfilCliente() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
-            <h1 className="text-3xl font-extrabold text-center tracking-tight mb-4">Mi Perfil</h1>
+        <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center mt-10">
+            <h1 className="text-4xl font-extrabold text-center tracking-tight mb-6">Mi Perfil</h1>
 
             <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md flex flex-col">
 
