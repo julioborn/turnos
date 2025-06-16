@@ -132,7 +132,7 @@ export default function BalancePage() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-5xl font-black mb-6 text-center">Balance</h1>
+                    <h1 className="text-4xl font-black mb-6 text-center">Balance</h1>
     
                     {/* Selectores */}
                     <div className="flex flex-wrap gap-4 mb-6 justify-center">
