@@ -32,7 +32,7 @@ export default function ClientHome() {
 
     return (
         <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-green-50 via-white to-gray-100 py-10 px-4">
-            <h1 className="text-4xl font-extrabold mb-2 text-center text-green-800">Reservar Turno</h1>
+            <h1 className="text-5xl font-black mb-2 text-center text-green-800">Reservar Turno</h1>
             <p className="text-lg text-gray-700 text-center">Elegí un deporte</p>
 
             <div className="grid p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full max-w-2xl">

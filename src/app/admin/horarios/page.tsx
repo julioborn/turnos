@@ -144,7 +144,7 @@ export default function AdminHorarios() {
     return (
         <div className="min-h-screen bg-gray-100 flex p-4 flex-col items-center mt-10">
             <div className="w-full max-w-md">
-                <h1 className="text-4xl font-extrabold mb-6 text-center">Horarios</h1>
+                <h1 className="text-5xl font-black mb-6 text-center">Horarios</h1>
 
                 {/* Botones para seleccionar deporte */}
                 <div className="flex flex-wrap justify-center gap-3 mb-6">
@@ -164,7 +164,6 @@ export default function AdminHorarios() {
 
                 {selectedDeporte && (
                     <>
-                        <h2 className="text-xl font-semibold mb-3">Horarios Disponibles</h2>
                         {loading ? (
                             <div className="flex justify-center items-center py-10">
                                 <Loader />

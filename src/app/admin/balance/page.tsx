@@ -132,7 +132,7 @@ export default function BalancePage() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-4xl font-extrabold mb-6 text-center">Balance</h1>
+                    <h1 className="text-5xl font-black mb-6 text-center">Balance</h1>
     
                     {/* Selectores */}
                     <div className="flex flex-wrap gap-4 mb-6 justify-center">
@@ -181,7 +181,7 @@ export default function BalancePage() {
                                 <Card label="Total" valor={balanceFiltrado.general.total} />
                             </div>
     
-                            <h1 className="text-4xl font-extrabold  text-center">Balance por Deporte</h1>
+                            {/* <h1 className="text-4xl font-extrabold  text-center">Balance por Deporte</h1> */}
     
                             {balanceFiltrado.deportes &&
                                 Object.entries(balanceFiltrado.deportes).map(([deporte, data]) => (
