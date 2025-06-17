@@ -124,7 +124,7 @@ export default function ReservasFutbol() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
-      <div className="w-full max-w-md mt-10">
+      <div className="w-full max-w-md p-4 mt-10">
         <div className="flex flex-col items-center mb-6">
           <h1 className="text-4xl uppercase font-black text-green-700 tracking-tight">Fútbol</h1>
           <p className="text-sm uppercase tracking-widest text-gray-500 mt-1">Turnos disponibles</p>
