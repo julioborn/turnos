@@ -1,24 +1,14 @@
+// components/ClientProviders.tsx
 "use client";
 
-import { useEffect, useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import SplashScreen from "./SplashScreen";
+import { useHasHydrated } from "@/hooks/useHasHydrated";
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
-    const [isAppReady, setIsAppReady] = useState(false);
+    const { hasHydrated, showSplash } = useHasHydrated();
 
-    useEffect(() => {
-        // Simula carga inicial (puede ser reemplazada por lógica real como fetch de usuario, etc.)
-        const timeout = setTimeout(() => {
-            setIsAppReady(true);
-        }, 1200); // ⏳ podés ajustar este tiempo
+    if (showSplash) return <SplashScreen />;
 
-        return () => clearTimeout(timeout);
-    }, []);
-
-    if (!isAppReady) {
-        return <SplashScreen />;
-    }
-
-    return <SessionProvider>{children}</SessionProvider>;
+    return <SessionProvider>{hasHydrated ? children : null}</SessionProvider>;
 }
