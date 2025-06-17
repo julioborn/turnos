@@ -11,7 +11,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowSplash(false);
-        }, 2500);
+        }, 3500);
 
         return () => clearTimeout(timer);
     }, []);
