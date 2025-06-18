@@ -6,16 +6,18 @@ export function useHasHydrated() {
 
     useEffect(() => {
         const splashShown = sessionStorage.getItem("splashShown");
+
+        // Si ya se mostró antes, no mostrarlo
         if (splashShown) {
-            setShowSplash(false); // no mostrar splash
+            setShowSplash(false);
             setHasHydrated(true);
         } else {
-            // mostrar splash y luego pasar a la app
+            // Mostrar splash solo si es la primera carga real
             const timer = setTimeout(() => {
                 sessionStorage.setItem("splashShown", "true");
                 setShowSplash(false);
                 setHasHydrated(true);
-            }, 2500); // ⏱️ duración del splash, ajustable
+            }, 2000); // duración deseada del splash
 
             return () => clearTimeout(timer);
         }
