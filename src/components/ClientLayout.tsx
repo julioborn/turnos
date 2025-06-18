@@ -6,22 +6,32 @@ import Header from "./Header";
 import SplashScreen from "./SplashScreen";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
-    const [showSplash, setShowSplash] = useState(true);
+    const [isAppReady, setIsAppReady] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowSplash(false);
-        }, 3500);
+        // Esperar a que se hidrate React y luego mostrar contenido
+        const handleHydration = () => {
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    setIsAppReady(true);
+                }, 2500); // ⏱️ Le damos un pequeño delay para que todo se monte bien
+            });
+        };
 
-        return () => clearTimeout(timer);
+        if (document.readyState === "complete") {
+            handleHydration();
+        } else {
+            window.addEventListener("load", handleHydration);
+            return () => window.removeEventListener("load", handleHydration);
+        }
     }, []);
 
-    return showSplash ? (
-        <SplashScreen />
-    ) : (
+    return isAppReady ? (
         <ClientProviders>
             <Header />
             <main className="pt-20">{children}</main>
         </ClientProviders>
+    ) : (
+        <SplashScreen />
     );
 }

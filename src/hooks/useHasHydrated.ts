@@ -15,7 +15,7 @@ export function useHasHydrated() {
                 sessionStorage.setItem("splashShown", "true");
                 setShowSplash(false);
                 setHasHydrated(true);
-            }, 2000); // ⏱️ duración del splash, ajustable
+            }, 2500); // ⏱️ duración del splash, ajustable
 
             return () => clearTimeout(timer);
         }
