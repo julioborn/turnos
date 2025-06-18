@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import ClientLayout from "@/components/ClientLayout";
+import ClientProviders from "@/components/ClientProviders";
+import Header from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,13 +35,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="es" style={{ backgroundColor: "#F3F4F6" }}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientProviders>
+          <Header />
+          <main className="pt-20">{children}</main> {/* ✅ Ya tenías pt-20 y lo dejamos así */}
+        </ClientProviders>
       </body>
     </html>
   );
