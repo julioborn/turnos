@@ -6,32 +6,39 @@ import Header from "./Header";
 import SplashScreen from "./SplashScreen";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
-    const [isAppReady, setIsAppReady] = useState(false);
+    const [showSplash, setShowSplash] = useState(true);
 
     useEffect(() => {
-        // Esperar a que se hidrate React y luego mostrar contenido
-        const handleHydration = () => {
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    setIsAppReady(true);
-                }, 2500); // ⏱️ Le damos un pequeño delay para que todo se monte bien
-            });
-        };
+        const splashShown = sessionStorage.getItem("splashShown");
 
-        if (document.readyState === "complete") {
-            handleHydration();
-        } else {
-            window.addEventListener("load", handleHydration);
-            return () => window.removeEventListener("load", handleHydration);
+        if (splashShown) {
+            setShowSplash(false);
+            return;
         }
+
+        const timeout = setTimeout(() => {
+            sessionStorage.setItem("splashShown", "true");
+            setShowSplash(false);
+        }, 2000); // tiempo del splash
+
+        return () => clearTimeout(timeout);
     }, []);
 
-    return isAppReady ? (
+    return (
         <ClientProviders>
             <Header />
-            <main className="pt-20">{children}</main>
+            <main className="pt-20 relative z-0">{children}</main>
+
+            {/* Splash como overlay */}
+            {showSplash && (
+                <div className="fixed inset-0 z-50 transition-opacity duration-700 bg-gradient-to-br from-green-600 to-green-400 flex items-center justify-center">
+                    <img
+                        src="/crc-old-nobg.png"
+                        alt="Logo CRC"
+                        className="w-40 h-40 animate-pulse"
+                    />
+                </div>
+            )}
         </ClientProviders>
-    ) : (
-        <SplashScreen />
     );
 }
